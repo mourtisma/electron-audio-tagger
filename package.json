@@ -1,0 +1,93 @@
+{
+  "name": "electron-audio-tagger",
+  "productName": "electron-audio-tagger",
+  "version": "1.0.0",
+  "description": "A portable desktop app for tagging your audio files",
+  "main": ".webpack/main",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "eslint --ext .ts .",
+    "postinstall": "husky install"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Ismail MOURTADA",
+    "email": "ismail.mourtada@gmail.com"
+  },
+  "license": "MIT",
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "electron_audio_tagger"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ],
+      "plugins": [
+        [
+          "@electron-forge/plugin-webpack",
+          {
+            "mainConfig": "./webpack.main.config.js",
+            "renderer": {
+              "config": "./webpack.renderer.config.js",
+              "entryPoints": [
+                {
+                  "html": "./src/index.html",
+                  "js": "./src/renderer.ts",
+                  "name": "main_window"
+                }
+              ]
+            }
+          }
+        ]
+      ]
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^12.0.1",
+    "@commitlint/config-conventional": "^12.0.1",
+    "@electron-forge/cli": "^6.0.0-beta.54",
+    "@electron-forge/maker-deb": "^6.0.0-beta.54",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.54",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
+    "@electron-forge/maker-zip": "^6.0.0-beta.54",
+    "@electron-forge/plugin-webpack": "^6.0.0-beta.54",
+    "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
+    "@typescript-eslint/eslint-plugin": "^4.15.2",
+    "@typescript-eslint/parser": "^4.15.2",
+    "css-loader": "^4.3.0",
+    "electron": "11.3.0",
+    "eslint": "^7.20.0",
+    "eslint-plugin-import": "^2.22.1",
+    "fork-ts-checker-webpack-plugin": "^5.2.1",
+    "husky": "^5.1.1",
+    "node-loader": "^1.0.2",
+    "semantic-release": "^17.4.0",
+    "style-loader": "^1.3.0",
+    "ts-loader": "^8.0.17",
+    "typescript": "^4.2.2"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0"
+  }
+}
