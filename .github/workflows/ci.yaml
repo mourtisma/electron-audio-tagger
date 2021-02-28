@@ -27,6 +27,7 @@ jobs:
         run: npm run make
   
   release:
+    needs: build
     runs-on: ubuntu-latest
 
     strategy:
