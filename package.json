@@ -12,6 +12,7 @@
     "lint": "eslint **/*.{js,ts,md,json}",
     "lint:fix": "eslint **/*.{js,ts,md,json} --fix",
     "format": "prettier --write --ignore-unknown **/*.{js,ts,md,json}",
+    "semantic-release": "semantic-release",
     "postinstall": "husky install"
   },
   "keywords": [],
