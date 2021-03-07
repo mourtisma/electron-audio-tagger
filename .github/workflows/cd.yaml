@@ -4,7 +4,6 @@ on:
     types:
       - created
 
-
 jobs:
   publish:
     runs-on: ${{ matrix.os }}
@@ -21,10 +20,10 @@ jobs:
       - name: Install Node.js  ${{ matrix.node-version }}, NPM and Yarn
         uses: actions/setup-node@v2.1.5
         with:
-          node-version:  ${{ matrix.node-version }}
-      
+          node-version: ${{ matrix.node-version }}
+
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Publish Electron app
         env:
