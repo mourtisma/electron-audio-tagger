@@ -9,5 +9,5 @@ test('Main page', async (t) => {
     .expect(
       screen.queryAllByText('Welcome to your Electron application.').exists,
     )
-    .ok();
+    .notOk();
 });
