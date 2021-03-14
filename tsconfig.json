@@ -10,9 +10,12 @@
     "outDir": "dist",
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "jsx": "react",
+    "types": ["jest"],
     "paths": {
       "*": ["node_modules/*"]
     }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "./jest-setup.ts"],
+  "exclude": ["src/__tests__/e2e/**/*"]
 }
