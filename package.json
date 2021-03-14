@@ -16,7 +16,7 @@
     "postinstall": "husky install",
     "test": "jest",
     "test:ci": "jest --coverage",
-    "test:e2e": "npm run package || testcafe"
+    "test:e2e": "npm run package; testcafe"
   },
   "keywords": [],
   "author": {
