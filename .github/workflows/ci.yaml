@@ -50,10 +50,11 @@ jobs:
 
   e2e-tests:
     needs: unit-tests
-    runs-on: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
+        os: [ubuntu-latest, windows-latest]
         node-version: [12.x]
 
     steps:
