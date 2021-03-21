@@ -1,11 +1,11 @@
 {
-  "extends": ["config:base"],
-  "baseBranches": ["dev"],
-  "semanticCommits": "enabled",
-  "lockFileMaintenance": {
-    "enabled": true,
-    "schedule": ["at any time"],
-    "stabilityDays": 0,
-    "masterIssueApproval": true
-  }
+    "extends": ["config:base"],
+    "baseBranches": ["dev"],
+    "semanticCommits": "enabled",
+    "lockFileMaintenance": {
+        "enabled": true,
+        "schedule": ["at any time"],
+        "stabilityDays": 0,
+        "masterIssueApproval": true
+    }
 }
