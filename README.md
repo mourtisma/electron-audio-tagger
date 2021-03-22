@@ -10,6 +10,6 @@
   </a>
 </p>
 
-# electron-audio-tagger
+# Electron Audio Tagger
 
 A portable desktop app for tagging your audio files
