@@ -15,7 +15,7 @@
         "semantic-release": "semantic-release",
         "postinstall": "husky install",
         "test": "jest",
-        "test:ci": "jest --coverage",
+        "test:ci": "jest --coverage && codecov",
         "test:e2e": "npm run package; testcafe"
     },
     "keywords": [],
@@ -49,6 +49,7 @@
         "@typescript-eslint/eslint-plugin": "^4.15.2",
         "@typescript-eslint/parser": "^4.15.2",
         "babel-jest": "^26.6.3",
+        "codecov": "^3.8.1",
         "css-loader": "^4.3.0",
         "electron": "^12.0.0",
         "electron-chromedriver": "^12.0.0",
