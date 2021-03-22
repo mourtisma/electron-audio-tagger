@@ -7,7 +7,7 @@
   </a>
   
   <a href="https://codecov.io/gh/mourtisma/electron-audio-tagger">
-    <img alt="codecov" src="https://codecov.io/gh/mourtisma/electron-audio-tagger/branch/1/boilerplate/graph/badge.svg?token=J3S4I784CB"/>
+    <img alt="codecov" src="https://codecov.io/gh/mourtisma/electron-audio-tagger/branch/init/graph/badge.svg?token=J3S4I784CB"/>
   </a>    
 </p>
 
