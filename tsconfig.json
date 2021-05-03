@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "allowJs": true,
+        "target": "ES2020",
         "module": "commonjs",
         "skipLibCheck": true,
         "esModuleInterop": true,
@@ -11,11 +12,15 @@
         "moduleResolution": "node",
         "resolveJsonModule": true,
         "jsx": "react",
-        "types": ["jest"],
+        "types": ["jest", "sinon"],
         "paths": {
-            "*": ["node_modules/*"]
+            "*": ["node_modules/*"],
+            "@src/*": ["./src/*"],
+            "@model/*": ["./src/model/*"],
+            "@view/*": ["./src/view/*"],
+            "@controller/*": ["./src/controller/*"],
+            "@service/*": ["./src/service/*"]
         }
     },
-    "include": ["src/**/*", "./jest-setup.ts"],
-    "exclude": ["src/__tests__/e2e/**/*"]
+    "include": ["src/**/*", "./jest-setup.ts"]
 }
