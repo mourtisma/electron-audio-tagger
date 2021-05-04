@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AudioFileController from '@controller/audio-file-controller';
 import helpers from './electron-helpers';
 
-const AudioGridContext = React.createContext({ handleClick: () => {} });
+const AudioGridContext = React.createContext({ handleClick: undefined });
 
 const OpenButton = () => (
     <AudioGridContext.Consumer>
