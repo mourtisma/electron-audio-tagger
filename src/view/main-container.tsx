@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import AudioFileController from '@controller/audio-file-controller';
+import AudioFile from '@model/audio-file';
+import AudioFilesGrid from './audio-files-grid';
 import helpers from './electron-helpers';
+
+type MainContainerState = {
+    audioFiles: AudioFile[];
+    error: boolean;
+    selectedDirectory: string;
+};
 
 const AudioGridContext = React.createContext({ handleClick: undefined });
 
@@ -19,7 +27,7 @@ const OpenButton = () => (
 );
 
 export default () => {
-    const [state, setState] = useState({
+    const [state, setState] = useState<MainContainerState>({
         audioFiles: [],
         error: false,
         selectedDirectory: null,
@@ -61,12 +69,7 @@ export default () => {
             {state.error ? (
                 <p>Error</p>
             ) : (
-                state.audioFiles.map((audioFile) => (
-                    <p key={audioFile.name}>
-                        {audioFile.name}
-                        {audioFile.error && ' - Error'}
-                    </p>
-                ))
+                <AudioFilesGrid audioFiles={state.audioFiles} />
             )}
         </AudioGridContext.Provider>
     );
