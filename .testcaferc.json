@@ -3,5 +3,8 @@
     "src": ["./src/__tests__/e2e/**/*"],
     "clientScripts": [
         { "module": "@testing-library/dom/dist/@testing-library/dom.umd.js" }
-    ]
+    ],
+    "compilerOptions": {
+        "typescript": { "configPath": "./src/__tests__/e2e/tsconfig.json" }
+    }
 }

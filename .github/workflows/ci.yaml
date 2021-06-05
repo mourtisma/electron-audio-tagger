@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [14.16.1]
 
     steps:
       - name: Checkout git repo
@@ -31,7 +31,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [14.16.1]
 
     steps:
       - name: Checkout git repo
@@ -59,7 +59,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [14.16.1]
 
     steps:
       - name: Checkout git repo
@@ -84,7 +84,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-        node-version: [12.x]
+        node-version: [14.16.1]
 
     steps:
       - name: Checkout git repo
@@ -107,7 +107,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [14.16.1]
 
     steps:
       - name: Checkout git repo
