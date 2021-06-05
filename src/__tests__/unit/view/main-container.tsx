@@ -33,6 +33,7 @@ test('Renders a grid with the audio files information', async () => {
     expect(await findByText('file1.mp3')).toBeInTheDocument();
     expect(await findByText('file2.mp3')).toBeInTheDocument();
     expect(await findByText('Error')).toBeInTheDocument();
+    expect(await findByText('Change directory')).toBeInTheDocument();
 });
 
 test('Shows an error message when the opening of the directory fails', async () => {
@@ -46,8 +47,8 @@ test('Shows an error message when the opening of the directory fails', async () 
 
     fireEvent.click(getByText('Open directory'));
 
-    expect(await findByText('No selected directory')).toBeInTheDocument();
     expect(await findByText('Error')).toBeInTheDocument();
+    expect(await findByText('Change directory')).toBeInTheDocument();
 });
 
 test('Does not render the grid when the user closes the open dialog', async () => {
@@ -60,5 +61,5 @@ test('Does not render the grid when the user closes the open dialog', async () =
 
     fireEvent.click(getByText('Open directory'));
 
-    expect(await findByText('No selected directory')).toBeInTheDocument();
+    expect(await findByText('Open directory')).toBeInTheDocument();
 });

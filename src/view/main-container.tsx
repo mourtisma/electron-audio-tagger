@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import AudioFileController from '@controller/audio-file-controller';
 import AudioFile from '@model/audio-file';
+import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
 import AudioFilesGrid from './audio-files-grid';
 import helpers from './electron-helpers';
 
@@ -10,23 +12,32 @@ type MainContainerState = {
     selectedDirectory: string;
 };
 
-const AudioGridContext = React.createContext({ handleClick: undefined });
+type AudioGridContextType = {
+    handleClick: () => void | undefined;
+    buttonText: 'Open directory' | 'Change directory';
+};
 
-const OpenButton = () => (
+const AudioGridContext = React.createContext<AudioGridContextType>({
+    handleClick: undefined,
+    buttonText: 'Open directory',
+});
+
+const OpenButton = (): JSX.Element => (
     <AudioGridContext.Consumer>
-        {({ handleClick }) => (
-            <button
-                type="button"
+        {({ handleClick, buttonText }) => (
+            <Button
                 id="open-button"
+                variant="contained"
+                color="primary"
                 onClick={() => handleClick()}
             >
-                Open directory
-            </button>
+                {buttonText}
+            </Button>
         )}
     </AudioGridContext.Consumer>
 );
 
-export default () => {
+export default (): JSX.Element => {
     const [state, setState] = useState<MainContainerState>({
         audioFiles: [],
         error: false,
@@ -37,7 +48,7 @@ export default () => {
         const { canceled, filePaths } = await helpers.showOpenDialog();
 
         if (!canceled) {
-            const directory = filePaths[0];
+            const [directory] = filePaths;
             try {
                 const audioFiles = await AudioFileController.openDirectory(
                     directory,
@@ -51,26 +62,42 @@ export default () => {
                 setState({
                     audioFiles: [],
                     error: true,
-                    selectedDirectory: null,
+                    selectedDirectory: directory,
                 });
             }
         } else {
             setState({ audioFiles: [], error: false, selectedDirectory: null });
         }
     };
+    if (!state.selectedDirectory) {
+        return (
+            <AudioGridContext.Provider
+                value={{ handleClick, buttonText: 'Open directory' }}
+            >
+                <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    minHeight="95vh"
+                >
+                    <OpenButton />
+                </Box>
+            </AudioGridContext.Provider>
+        );
+    }
     return (
-        <AudioGridContext.Provider value={{ handleClick }}>
-            <OpenButton />
-            {state.selectedDirectory ? (
-                <p>Selected directory: {state.selectedDirectory}</p>
-            ) : (
-                <p>No selected directory</p>
-            )}
+        <>
+            <AudioGridContext.Provider
+                value={{ handleClick, buttonText: 'Change directory' }}
+            >
+                <OpenButton />
+            </AudioGridContext.Provider>
+            <p>Selected directory: {state.selectedDirectory}</p>
             {state.error ? (
                 <p>Error</p>
             ) : (
                 <AudioFilesGrid audioFiles={state.audioFiles} />
             )}
-        </AudioGridContext.Provider>
+        </>
     );
 };
