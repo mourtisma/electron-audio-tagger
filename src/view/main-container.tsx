@@ -3,6 +3,8 @@ import AudioFileController from '@controller/audio-file-controller';
 import AudioFile from '@model/audio-file';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import Snackbar from '@material-ui/core/Snackbar';
 import AudioFilesGrid from './audio-files-grid';
 import helpers from './electron-helpers';
 
@@ -69,6 +71,14 @@ export default (): JSX.Element => {
             setState({ audioFiles: [], error: false, selectedDirectory: null });
         }
     };
+
+    const handleErrorSnackbarClose = () => {
+        setState({
+            ...state,
+            error: false,
+        });
+    };
+
     if (!state.selectedDirectory) {
         return (
             <AudioGridContext.Provider
@@ -92,12 +102,16 @@ export default (): JSX.Element => {
             >
                 <OpenButton />
             </AudioGridContext.Provider>
-            <p>Selected directory: {state.selectedDirectory}</p>
-            {state.error ? (
-                <p>Error</p>
-            ) : (
-                <AudioFilesGrid audioFiles={state.audioFiles} />
-            )}
+            <Typography variant="h6">
+                Selected directory: {state.selectedDirectory}
+            </Typography>
+            <Snackbar
+                open={state.error}
+                onClose={() => handleErrorSnackbarClose()}
+                autoHideDuration={5000}
+                message={`Error when opening directory ${state.selectedDirectory}`}
+            />
+            <AudioFilesGrid audioFiles={state.audioFiles} />
         </>
     );
 };

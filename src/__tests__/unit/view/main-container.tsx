@@ -40,14 +40,16 @@ test('Shows an error message when the opening of the directory fails', async () 
     const { getByText, findByText } = render(<MainContainer />);
     const showOpenDialogSpy = jest.spyOn(helpers, 'showOpenDialog');
     showOpenDialogSpy.mockImplementation(async () => ({
-        filePaths: ['directory'],
+        filePaths: ['selectedDirectory'],
         canceled: false,
     }));
     sinon.stub(AudioFileController, 'openDirectory').throws(Error);
 
     fireEvent.click(getByText('Open directory'));
 
-    expect(await findByText('Error')).toBeInTheDocument();
+    expect(
+        await findByText('Error when opening directory selectedDirectory'),
+    ).toBeInTheDocument();
     expect(await findByText('Change directory')).toBeInTheDocument();
 });
 
