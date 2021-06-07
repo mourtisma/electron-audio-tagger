@@ -35,7 +35,7 @@
         "@typescript-eslint/no-unused-vars": ["error"],
         "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }]
     },
-    "globals": { "JSX": true },
+    "globals": { "JSX": true, "Electron": true },
     "settings": {
         "import/resolver": {
             "node": {

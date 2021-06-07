@@ -1,4 +1,3 @@
-import Electron from 'electron';
 import { dialog } from '@electron/remote';
 
 export default {
