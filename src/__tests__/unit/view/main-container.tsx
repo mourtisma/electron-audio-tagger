@@ -57,6 +57,12 @@ test('Shows an error message when the opening of the directory fails', async () 
         await findByText('Error when opening directory selectedDirectory'),
     ).toBeInTheDocument();
     expect(await findByText('Change directory')).toBeInTheDocument();
+
+    // Click outside the snackbar, to execute the onClose callback
+    fireEvent.click(getByText('Selected directory: selectedDirectory'));
+
+    // With RTL, the snackbar is still present in the DOM, whereas it shouldn't be
+    // => For the moment, it's impossible to add an expect statement
 });
 
 test('Does not render the grid when the user closes the open dialog', async () => {
