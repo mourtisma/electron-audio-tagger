@@ -14,7 +14,7 @@ afterEach(() => {
 });
 
 test('Renders a grid with the audio files information', async () => {
-    const { getByText, findByText } = render(<MainContainer />);
+    const { getByText, findByText, findByTestId } = render(<MainContainer />);
     const showOpenDialogSpy = jest.spyOn(helpers, 'showOpenDialog');
     showOpenDialogSpy.mockImplementation(async () => ({
         filePaths: ['directory'],
@@ -31,23 +31,38 @@ test('Renders a grid with the audio files information', async () => {
         await findByText('Selected directory: directory'),
     ).toBeInTheDocument();
     expect(await findByText('file1.mp3')).toBeInTheDocument();
+
     expect(await findByText('file2.mp3')).toBeInTheDocument();
-    expect(await findByText('Error')).toBeInTheDocument();
+    expect(await findByTestId('error-file2.mp3')).toBeInTheDocument();
+    fireEvent.mouseOver(await findByTestId('error-file2.mp3'));
+    expect(
+        await findByText('Error when reading this file'),
+    ).toBeInTheDocument();
+
+    expect(await findByText('Change directory')).toBeInTheDocument();
 });
 
 test('Shows an error message when the opening of the directory fails', async () => {
     const { getByText, findByText } = render(<MainContainer />);
     const showOpenDialogSpy = jest.spyOn(helpers, 'showOpenDialog');
     showOpenDialogSpy.mockImplementation(async () => ({
-        filePaths: ['directory'],
+        filePaths: ['selectedDirectory'],
         canceled: false,
     }));
     sinon.stub(AudioFileController, 'openDirectory').throws(Error);
 
     fireEvent.click(getByText('Open directory'));
 
-    expect(await findByText('No selected directory')).toBeInTheDocument();
-    expect(await findByText('Error')).toBeInTheDocument();
+    expect(
+        await findByText('Error when opening directory selectedDirectory'),
+    ).toBeInTheDocument();
+    expect(await findByText('Change directory')).toBeInTheDocument();
+
+    // Click outside the snackbar, to execute the onClose callback
+    fireEvent.click(getByText('Selected directory: selectedDirectory'));
+
+    // With RTL, the snackbar is still present in the DOM, whereas it shouldn't be
+    // => For the moment, it's impossible to add an expect statement
 });
 
 test('Does not render the grid when the user closes the open dialog', async () => {
@@ -60,5 +75,5 @@ test('Does not render the grid when the user closes the open dialog', async () =
 
     fireEvent.click(getByText('Open directory'));
 
-    expect(await findByText('No selected directory')).toBeInTheDocument();
+    expect(await findByText('Open directory')).toBeInTheDocument();
 });
