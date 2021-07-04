@@ -77,3 +77,27 @@ test('Does not render the grid when the user closes the open dialog', async () =
 
     expect(await findByText('Open directory')).toBeInTheDocument();
 });
+
+test('Proposes to change directory when a directory is selected and the new dialog is closed', async () => {
+    const { getByText, findByText } = render(<MainContainer />);
+    const showOpenDialogSpy = jest.spyOn(helpers, 'showOpenDialog');
+    showOpenDialogSpy.mockImplementation(async () => ({
+        filePaths: ['directory'],
+        canceled: false,
+    }));
+    sinon.stub(AudioFileController, 'openDirectory').resolves([
+        { name: 'file1.mp3', error: false },
+        { name: 'file2.mp3', error: true },
+    ]);
+
+    fireEvent.click(getByText('Open directory'));
+    expect(await findByText('Change directory')).toBeInTheDocument();
+
+    showOpenDialogSpy.mockImplementation(async () => ({
+        filePaths: ['directory'],
+        canceled: true,
+    }));
+
+    fireEvent.click(getByText('Change directory'));
+    expect(await findByText('Change directory')).toBeInTheDocument();
+});
