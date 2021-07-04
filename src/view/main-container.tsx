@@ -8,12 +8,6 @@ import Snackbar from '@material-ui/core/Snackbar';
 import AudioFilesGrid from './audio-files-grid';
 import helpers from './electron-helpers';
 
-type MainContainerState = {
-    audioFiles: AudioFile[];
-    error: boolean;
-    selectedDirectory: string;
-};
-
 type AudioGridContextType = {
     handleClick: () => void | undefined;
     buttonText: 'Open directory' | 'Change directory';
@@ -40,11 +34,11 @@ const OpenButton = (): JSX.Element => (
 );
 
 export default (): JSX.Element => {
-    const [state, setState] = useState<MainContainerState>({
-        audioFiles: [],
-        error: false,
-        selectedDirectory: null,
-    });
+    const [audioFiles, setAudioFiles] = useState<AudioFile[]>([]);
+    const [error, setError] = useState<boolean>(false);
+    const [selectedDirectory, setSelectedDirectory] = useState<string | null>(
+        null,
+    );
 
     const handleClick = async () => {
         const { canceled, filePaths } = await helpers.showOpenDialog();
@@ -52,34 +46,24 @@ export default (): JSX.Element => {
         if (!canceled) {
             const [directory] = filePaths;
             try {
-                const audioFiles = await AudioFileController.openDirectory(
+                const newAudioFiles = await AudioFileController.openDirectory(
                     directory,
                 );
-                setState({
-                    audioFiles,
-                    error: false,
-                    selectedDirectory: directory,
-                });
+                setAudioFiles(newAudioFiles);
             } catch (e) {
-                setState({
-                    audioFiles: [],
-                    error: true,
-                    selectedDirectory: directory,
-                });
+                setAudioFiles([]);
+                setError(true);
+            } finally {
+                setSelectedDirectory(directory);
             }
-        } else {
-            setState({ audioFiles: [], error: false, selectedDirectory: null });
         }
     };
 
     const handleErrorSnackbarClose = () => {
-        setState({
-            ...state,
-            error: false,
-        });
+        setError(false);
     };
 
-    if (!state.selectedDirectory) {
+    if (!selectedDirectory) {
         return (
             <AudioGridContext.Provider
                 value={{ handleClick, buttonText: 'Open directory' }}
@@ -103,15 +87,15 @@ export default (): JSX.Element => {
                 <OpenButton />
             </AudioGridContext.Provider>
             <Typography variant="h6">
-                Selected directory: {state.selectedDirectory}
+                Selected directory: {selectedDirectory}
             </Typography>
             <Snackbar
-                open={state.error}
+                open={error}
                 onClose={() => handleErrorSnackbarClose()}
                 autoHideDuration={5000}
-                message={`Error when opening directory ${state.selectedDirectory}`}
+                message={`Error when opening directory ${selectedDirectory}`}
             />
-            <AudioFilesGrid audioFiles={state.audioFiles} />
+            <AudioFilesGrid audioFiles={audioFiles} />
         </>
     );
 };
