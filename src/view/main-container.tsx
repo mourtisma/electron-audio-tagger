@@ -6,6 +6,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
 import AudioFilesGrid from './audio-files-grid';
+import EditDialog from './edit-dialog';
 import helpers from './electron-helpers';
 
 type AudioGridContextType = {
@@ -35,10 +36,14 @@ const OpenButton = (): JSX.Element => (
 
 export default (): JSX.Element => {
     const [audioFiles, setAudioFiles] = useState<AudioFile[]>([]);
+    const [audioFileToEdit, setAudioFileToEdit] = useState<AudioFile | null>(
+        null,
+    );
     const [error, setError] = useState<boolean>(false);
     const [selectedDirectory, setSelectedDirectory] = useState<string | null>(
         null,
     );
+    const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false);
 
     const handleClick = async () => {
         const { canceled, filePaths } = await helpers.showOpenDialog();
@@ -61,6 +66,20 @@ export default (): JSX.Element => {
 
     const handleErrorSnackbarClose = () => {
         setError(false);
+    };
+
+    const onFileSelect = async (filename: string) => {
+        const audioFile = await AudioFileController.readFile(
+            selectedDirectory,
+            filename,
+        );
+        setAudioFileToEdit(audioFile);
+        setEditDialogOpen(true);
+    };
+
+    const handleEditDialogClose = () => {
+        setAudioFileToEdit(null);
+        setEditDialogOpen(false);
     };
 
     if (!selectedDirectory) {
@@ -95,7 +114,15 @@ export default (): JSX.Element => {
                 autoHideDuration={5000}
                 message={`Error when opening directory ${selectedDirectory}`}
             />
-            <AudioFilesGrid audioFiles={audioFiles} />
+            <AudioFilesGrid
+                audioFiles={audioFiles}
+                onFileSelect={(filename: string) => onFileSelect(filename)}
+            />
+            <EditDialog
+                audioFile={audioFileToEdit}
+                open={editDialogOpen}
+                handleClose={() => handleEditDialogClose()}
+            />
         </>
     );
 };

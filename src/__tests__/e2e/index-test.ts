@@ -14,9 +14,11 @@ test('Main page', async (t) => {
         { directory },
     );
 
-    await t.expect(screen.queryAllByText('Open directory').exists).ok();
+    await t.expect(screen.getByText('Open directory').exists).ok();
 
     await t.click('#open-button');
-
     await t.expect(screen.queryAllByText('name.mp3').exists).ok();
+
+    await t.click(screen.getByTestId('edit-name.mp3'));
+    await t.expect(screen.queryAllByText('Edit name.mp3').exists).ok();
 });

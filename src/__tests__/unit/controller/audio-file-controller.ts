@@ -16,7 +16,24 @@ describe('AudioFileController#openDirectory', () => {
         );
 
         expect(audioFiles).toHaveLength(1);
-        expect(audioFiles[0].name).toBe('file.mp3');
-        expect(audioFiles[0].error).toBeFalsy();
+        expect(audioFiles[0]).toStrictEqual({ name: 'file.mp3', error: false });
+    });
+});
+
+describe('AudioFileController#readFile', () => {
+    it('Uses the repository to return the ID3 tags of a particular file', async () => {
+        const directory: string = 'my-files/';
+        const fileName: string = 'file1.mp3';
+
+        sinon
+            .stub(AudioFileRepository.prototype, 'getOne')
+            .resolves({ name: 'file.mp3', error: false });
+
+        const audioFile: AudioFile = await AudioFileController.readFile(
+            directory,
+            fileName,
+        );
+
+        expect(audioFile).toStrictEqual({ name: 'file.mp3', error: false });
     });
 });

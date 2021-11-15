@@ -8,10 +8,14 @@ test('Renders a grid with the audio files information', async () => {
         { name: 'file1.mp3', title: 'File 1', error: false },
         { name: 'file2.mp3', error: true },
     ];
-    const { getByText } = render(<AudioFilesGrid audioFiles={audioFiles} />);
+    const { getByText, getByTestId } = render(
+        <AudioFilesGrid audioFiles={audioFiles} onFileSelect={() => {}} />,
+    );
 
     expect(getByText('file1.mp3')).toBeInTheDocument();
     expect(getByText('File 1')).toBeInTheDocument();
     expect(getByText('file2.mp3')).toBeInTheDocument();
-    expect(getByText('Error')).toBeInTheDocument();
+    expect(getByTestId('error-file2.mp3')).toBeInTheDocument();
+    expect(getByTestId('edit-file1.mp3')).toBeInTheDocument();
+    expect(getByTestId('edit-file2.mp3')).toBeInTheDocument();
 });

@@ -94,3 +94,37 @@ describe('NodeID3Adapter#getAll', () => {
         expect(audioFiles[1]).toStrictEqual({ name: 'file2.wav', error: true });
     });
 });
+
+describe('NodeID3Adapter#getOne', () => {
+    afterEach(() => {
+        sinon.restore();
+    });
+
+    it('Returns the ID3 tags of one particular audio file', async () => {
+        const read = sinon.stub(NodeID3.Promise, 'read');
+        read.withArgs('myDir/file1.mp3').resolves({
+            title: 'File 1',
+        });
+
+        const audioFile: AudioFile = await new NodeID3Adapter().getOne(
+            'myDir/',
+            'file1.mp3',
+        );
+        expect(audioFile).toStrictEqual({
+            name: 'file1.mp3',
+            title: 'File 1',
+            error: false,
+        });
+    });
+
+    it('Marks the file as errored whenever NodeID3 fails to read its tags', async () => {
+        const read = sinon.stub(NodeID3.Promise, 'read');
+        read.withArgs('myDir/file1.mp3').rejects(Error);
+
+        const audioFile: AudioFile = await new NodeID3Adapter().getOne(
+            'myDir/',
+            'file1.mp3',
+        );
+        expect(audioFile).toStrictEqual({ name: 'file1.mp3', error: true });
+    });
+});

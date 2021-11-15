@@ -11,4 +11,8 @@ export default class AudioFileRepository {
     async getAll(directory: string): Promise<AudioFile[]> {
         return this.adapter.getAll(directory);
     }
+
+    async getOne(directory: string, fileName: string): Promise<AudioFile> {
+        return this.adapter.getOne(directory, fileName);
+    }
 }
