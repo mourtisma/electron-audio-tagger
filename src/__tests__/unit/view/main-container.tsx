@@ -14,7 +14,13 @@ afterEach(() => {
 });
 
 test('Renders a grid with the audio files information', async () => {
-    const { getByText, findByText, findByTestId } = render(<MainContainer />);
+    const {
+        getByText,
+        findByText,
+        findByTestId,
+        getByTestId,
+        queryByText,
+    } = render(<MainContainer />);
     const showOpenDialogSpy = jest.spyOn(helpers, 'showOpenDialog');
     showOpenDialogSpy.mockImplementation(async () => ({
         filePaths: ['directory'],
@@ -40,6 +46,19 @@ test('Renders a grid with the audio files information', async () => {
     ).toBeInTheDocument();
 
     expect(await findByText('Change directory')).toBeInTheDocument();
+
+    sinon
+        .stub(AudioFileController, 'readFile')
+        .resolves({ name: 'file1.mp3', title: 'File 1', error: false });
+
+    fireEvent.click(getByTestId('edit-file1.mp3'));
+
+    expect(await findByText('Edit file1.mp3')).toBeInTheDocument();
+    expect(await findByText('Title: File 1')).toBeInTheDocument();
+
+    fireEvent.click(getByTestId('close'));
+    expect(queryByText('Edit file1.mp3')).not.toBeInTheDocument();
+    expect(queryByText('Title: File 1')).not.toBeInTheDocument();
 });
 
 test('Shows an error message when the opening of the directory fails', async () => {

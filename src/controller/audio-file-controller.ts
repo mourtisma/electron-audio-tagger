@@ -12,6 +12,10 @@ class AudioFileController {
     async openDirectory(directory: string): Promise<AudioFile[]> {
         return this.audioFileRepository.getAll(directory);
     }
+
+    async readFile(directory: string, fileName: string): Promise<AudioFile> {
+        return this.audioFileRepository.getOne(directory, fileName);
+    }
 }
 
 const audioFileController = new AudioFileController(
@@ -21,4 +25,7 @@ const audioFileController = new AudioFileController(
 export default {
     openDirectory: (directory: string): Promise<AudioFile[]> =>
         audioFileController.openDirectory(directory),
+
+    readFile: (directory: string, fileName: string): Promise<AudioFile> =>
+        audioFileController.readFile(directory, fileName),
 };

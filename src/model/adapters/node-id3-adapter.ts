@@ -21,6 +21,20 @@ export default class NodeID3Adapter implements GenericAdapter {
         return result;
     }
 
+    private static async readAudioFile(
+        directory: string,
+        fileName: string,
+    ): Promise<AudioFile> {
+        let error: boolean = false;
+        let tags: NodeID3.Tags;
+        try {
+            tags = await NodeID3.Promise.read(path.join(directory, fileName));
+        } catch (e) {
+            error = true;
+        }
+        return NodeID3Adapter.toAudioFile(fileName, tags, error);
+    }
+
     private async getAudioFilesFromDirectory(
         directory: string,
     ): Promise<string[]> {
@@ -42,18 +56,13 @@ export default class NodeID3Adapter implements GenericAdapter {
         }
 
         return Promise.all(
-            fileNames.map(async (fileName) => {
-                let error: boolean = false;
-                let tags: NodeID3.Tags;
-                try {
-                    tags = await NodeID3.Promise.read(
-                        path.join(directory, fileName),
-                    );
-                } catch (e) {
-                    error = true;
-                }
-                return NodeID3Adapter.toAudioFile(fileName, tags, error);
-            }),
+            fileNames.map((fileName) =>
+                NodeID3Adapter.readAudioFile(directory, fileName),
+            ),
         );
+    }
+
+    async getOne(directory: string, fileName: string): Promise<AudioFile> {
+        return NodeID3Adapter.readAudioFile(directory, fileName);
     }
 }
