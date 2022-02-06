@@ -1,27 +1,37 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useContext, useState, useEffect } from 'react';
 
 import { useForm, Controller } from 'react-hook-form';
 
 import TextField from '@material-ui/core/TextField';
 import AudioFile from '@model/audio-file';
+import { EditAudioFileContext } from './context';
 
-interface EditAudioFileFormProps {
-    handleChange: (e: ChangeEvent) => void;
-    onSubmit: () => void;
-    audioFileValues: AudioFile;
-}
+export default (): JSX.Element => {
+    const { audioFile, editAudioFile } = useContext(EditAudioFileContext);
+    const [audioFileValues, setAudioFileValues] = useState<AudioFile>(
+        audioFile,
+    );
+    useEffect(() => {
+        setAudioFileValues(audioFile);
+    }, [audioFile]);
 
-export default ({
-    handleChange,
-    audioFileValues,
-    onSubmit,
-}: EditAudioFileFormProps): JSX.Element => {
+    const handleChange = (e: ChangeEvent) => {
+        const target = e.target as HTMLInputElement;
+        setAudioFileValues({
+            ...audioFileValues,
+            [target.name]: target.value,
+        });
+    };
+    const onSubmit = async () => {
+        await editAudioFile(audioFileValues);
+    };
+
     const { control, handleSubmit } = useForm({
         defaultValues: audioFileValues,
     });
     return (
         audioFileValues && (
-            <form onSubmit={handleSubmit(() => onSubmit())}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <Controller
                     name="title"
                     control={control}
@@ -31,7 +41,7 @@ export default ({
                             label="Title"
                             name={name}
                             value={audioFileValues.title || ''}
-                            onChange={(e: ChangeEvent) => handleChange(e)}
+                            onChange={handleChange}
                         />
                     )}
                 />

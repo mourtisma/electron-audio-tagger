@@ -73,12 +73,19 @@ export default (): JSX.Element => {
         setEditDialogOpen(false);
     };
 
-    const editAudioFile = async (newAudioFile: AudioFile): Promise<AudioFile> =>
-        AudioFileController.editFile(
+    const editAudioFile = async (
+        newAudioFile: AudioFile,
+    ): Promise<AudioFile> => {
+        const editedAudioFile: AudioFile = await AudioFileController.editFile(
             selectedDirectory,
             newAudioFile.name,
             newAudioFile,
         );
+
+        handleEditDialogClose();
+
+        return editedAudioFile;
+    };
 
     if (!selectedDirectory) {
         return (
@@ -108,20 +115,20 @@ export default (): JSX.Element => {
             </Typography>
             <Snackbar
                 open={error}
-                onClose={() => handleErrorSnackbarClose()}
+                onClose={handleErrorSnackbarClose}
                 autoHideDuration={5000}
                 message={`Error when opening directory ${selectedDirectory}`}
             />
             <AudioFilesGrid
                 audioFiles={audioFiles}
-                onFileSelect={(filename: string) => onFileSelect(filename)}
+                onFileSelect={onFileSelect}
             />
             <EditAudioFileContext.Provider
                 value={{ audioFile: audioFileToEdit, editAudioFile }}
             >
                 <EditDialog
                     open={editDialogOpen}
-                    handleClose={() => handleEditDialogClose()}
+                    handleClose={handleEditDialogClose}
                 />
             </EditAudioFileContext.Provider>
         </>
