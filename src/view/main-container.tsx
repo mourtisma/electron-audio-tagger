@@ -5,19 +5,10 @@ import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
+import { AudioGridContext, EditAudioFileContext } from './context';
 import AudioFilesGrid from './audio-files-grid';
 import EditDialog from './edit-dialog';
 import helpers from './electron-helpers';
-
-type AudioGridContextType = {
-    handleClick: () => void | undefined;
-    buttonText: 'Open directory' | 'Change directory';
-};
-
-const AudioGridContext = React.createContext<AudioGridContextType>({
-    handleClick: undefined,
-    buttonText: 'Open directory',
-});
 
 const OpenButton = (): JSX.Element => (
     <AudioGridContext.Consumer>
@@ -82,6 +73,13 @@ export default (): JSX.Element => {
         setEditDialogOpen(false);
     };
 
+    const editAudioFile = async (newAudioFile: AudioFile): Promise<AudioFile> =>
+        AudioFileController.editFile(
+            selectedDirectory,
+            newAudioFile.name,
+            newAudioFile,
+        );
+
     if (!selectedDirectory) {
         return (
             <AudioGridContext.Provider
@@ -118,11 +116,14 @@ export default (): JSX.Element => {
                 audioFiles={audioFiles}
                 onFileSelect={(filename: string) => onFileSelect(filename)}
             />
-            <EditDialog
-                audioFile={audioFileToEdit}
-                open={editDialogOpen}
-                handleClose={() => handleEditDialogClose()}
-            />
+            <EditAudioFileContext.Provider
+                value={{ audioFile: audioFileToEdit, editAudioFile }}
+            >
+                <EditDialog
+                    open={editDialogOpen}
+                    handleClose={() => handleEditDialogClose()}
+                />
+            </EditAudioFileContext.Provider>
         </>
     );
 };

@@ -15,12 +15,25 @@ module.exports = [
         },
     },
     {
-        test: /\.tsx?$/,
+        test: /\.(ts|tsx)?$/,
         exclude: /(node_modules|\.webpack)/,
         use: {
-            loader: 'ts-loader',
+            loader: 'babel-loader',
             options: {
-                transpileOnly: true,
+                presets: [
+                    [
+                        '@babel/preset-env',
+                        {
+                            targets: { node: 'current' },
+                            include: [
+                                '@babel/plugin-proposal-optional-chaining',
+                            ],
+                        },
+                    ],
+                    '@babel/preset-typescript',
+                    '@babel/preset-react',
+                ],
+                plugins: ['@babel/plugin-proposal-class-properties'],
             },
         },
     },
