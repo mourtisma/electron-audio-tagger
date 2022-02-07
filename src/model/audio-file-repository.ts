@@ -15,4 +15,12 @@ export default class AudioFileRepository {
     async getOne(directory: string, fileName: string): Promise<AudioFile> {
         return this.adapter.getOne(directory, fileName);
     }
+
+    async update(
+        directory: string,
+        fileName: string,
+        newAudioFile: AudioFile,
+    ): Promise<AudioFile> {
+        return this.adapter.update(directory, fileName, newAudioFile);
+    }
 }

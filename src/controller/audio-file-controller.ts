@@ -16,6 +16,18 @@ class AudioFileController {
     async readFile(directory: string, fileName: string): Promise<AudioFile> {
         return this.audioFileRepository.getOne(directory, fileName);
     }
+
+    async editFile(
+        directory: string,
+        fileName: string,
+        newAudioFile: AudioFile,
+    ): Promise<AudioFile> {
+        return this.audioFileRepository.update(
+            directory,
+            fileName,
+            newAudioFile,
+        );
+    }
 }
 
 const audioFileController = new AudioFileController(
@@ -28,4 +40,7 @@ export default {
 
     readFile: (directory: string, fileName: string): Promise<AudioFile> =>
         audioFileController.readFile(directory, fileName),
+
+    editFile: (directory: string, fileName: string, newAudioFile: AudioFile) =>
+        audioFileController.editFile(directory, fileName, newAudioFile),
 };

@@ -52,12 +52,10 @@ describe('NodeID3Adapter#getAll', () => {
         });
     });
 
-    it('Throws an error when reading the files in a directory was unsuccessful', async () => {
+    it('Throws an error when reading the files in a directory was unsuccessful', () => {
         sinon.stub(fs.promises, 'readdir').rejects(Error);
 
-        await expect(() =>
-            new NodeID3Adapter().getAll(directory),
-        ).rejects.toThrow();
+        expect(() => new NodeID3Adapter().getAll(directory)).rejects.toThrow();
     });
 
     it('Marks the file as errored whenever NodeID3 fails to read its tags', async () => {
@@ -126,5 +124,50 @@ describe('NodeID3Adapter#getOne', () => {
             'file1.mp3',
         );
         expect(audioFile).toStrictEqual({ name: 'file1.mp3', error: true });
+    });
+});
+
+describe('NodeID3Adapter#update', () => {
+    afterEach(() => {
+        sinon.restore();
+    });
+
+    it('Modifies the ID3 tags of one particular audio file', async () => {
+        const update = sinon.stub(NodeID3.Promise, 'update');
+        const tags: NodeID3.Tags = {
+            title: 'File 1',
+        };
+        update.withArgs(tags, 'myDir/file1.mp3').resolves(true);
+
+        const audioFile: AudioFile = {
+            name: 'file1.mp3',
+            title: 'File 1',
+            error: false,
+        };
+
+        const newAudioFile: AudioFile = await new NodeID3Adapter().update(
+            'myDir/',
+            'file1.mp3',
+            audioFile,
+        );
+        expect(newAudioFile).toStrictEqual(audioFile);
+    });
+
+    it('Returns an error whenever NodeID3 fails to update the tags of a file', async () => {
+        const update = sinon.stub(NodeID3.Promise, 'update');
+        const tags: NodeID3.Tags = {
+            title: 'File 1',
+        };
+        update.withArgs(tags, 'myDir/file1.mp3').rejects(Error);
+
+        const audioFile: AudioFile = {
+            name: 'file1.mp3',
+            title: 'File 1',
+            error: false,
+        };
+
+        await expect(() =>
+            new NodeID3Adapter().update('myDir/', 'file1.mp3', audioFile),
+        ).rejects.toThrow();
     });
 });

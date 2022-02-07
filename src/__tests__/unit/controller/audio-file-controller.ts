@@ -37,3 +37,46 @@ describe('AudioFileController#readFile', () => {
         expect(audioFile).toStrictEqual({ name: 'file.mp3', error: false });
     });
 });
+
+describe('AudioFileController#editFile', () => {
+    beforeEach(() => {
+        sinon.restore();
+    });
+    it('Uses the repository to update the ID3 tags of a particular file', async () => {
+        const directory: string = 'my-files/';
+        const fileName: string = 'file1.mp3';
+        const audioFile: AudioFile = {
+            name: 'file.mp3',
+            title: 'File',
+            error: false,
+        };
+
+        sinon
+            .stub(AudioFileRepository.prototype, 'update')
+            .resolves({ name: 'file.mp3', title: 'File', error: false });
+
+        const newAudioFile: AudioFile = await AudioFileController.editFile(
+            directory,
+            fileName,
+            audioFile,
+        );
+
+        expect(newAudioFile).toStrictEqual(audioFile);
+    });
+
+    it('Throws an error during the update the ID3 tags of a particular file if the repository throws an error', async () => {
+        const directory: string = 'my-files/';
+        const fileName: string = 'file1.mp3';
+        const audioFile: AudioFile = {
+            name: 'file.mp3',
+            title: 'File',
+            error: false,
+        };
+
+        sinon.stub(AudioFileRepository.prototype, 'update').throws(Error);
+
+        await expect(() =>
+            AudioFileController.editFile(directory, fileName, audioFile),
+        ).rejects.toThrow(Error);
+    });
+});

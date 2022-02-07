@@ -21,6 +21,10 @@ export default class NodeID3Adapter implements GenericAdapter {
         return result;
     }
 
+    private static toNodeID3Tags({ title }: AudioFile): NodeID3.Tags {
+        return { title };
+    }
+
     private static async readAudioFile(
         directory: string,
         fileName: string,
@@ -64,5 +68,25 @@ export default class NodeID3Adapter implements GenericAdapter {
 
     async getOne(directory: string, fileName: string): Promise<AudioFile> {
         return NodeID3Adapter.readAudioFile(directory, fileName);
+    }
+
+    async update(
+        directory: string,
+        fileName: string,
+        newAudioFile: AudioFile,
+    ): Promise<AudioFile> {
+        const newTags: NodeID3.Tags = NodeID3Adapter.toNodeID3Tags(
+            newAudioFile,
+        );
+        const filePath: string = path.join(directory, fileName);
+        try {
+            await NodeID3.Promise.update(newTags, filePath);
+        } catch (e) {
+            throw new Error(
+                `There was an internal error during the update of ${filePath}: ${e}`,
+            );
+        }
+
+        return newAudioFile;
     }
 }

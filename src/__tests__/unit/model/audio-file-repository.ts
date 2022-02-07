@@ -48,3 +48,52 @@ describe('AudioFileRepository#getOne', () => {
         });
     });
 });
+
+describe('AudioFileRepository#update', () => {
+    beforeEach(() => {
+        sinon.restore();
+    });
+    it('Uses the adapter to update the ID3 tags of a particular file', async () => {
+        const directory: string = 'my-files/';
+        const filePath: string = 'file1.mp3';
+        const audioFile: AudioFile = {
+            name: 'file.mp3',
+            title: 'File 1',
+            error: false,
+        };
+
+        const nodeID3AdapterStub = sinon.createStubInstance(NodeID3Adapter);
+        nodeID3AdapterStub.update.resolves({
+            name: 'file.mp3',
+            title: 'File 1',
+            error: false,
+        });
+
+        const newAudioFile: AudioFile = await new AudioFileRepository(
+            nodeID3AdapterStub,
+        ).update(directory, filePath, audioFile);
+
+        expect(newAudioFile).toStrictEqual(audioFile);
+    });
+
+    it('Throws an error if the adapted throws an error', async () => {
+        const directory: string = 'my-files/';
+        const filePath: string = 'file1.mp3';
+        const audioFile: AudioFile = {
+            name: 'file.mp3',
+            title: 'File 1',
+            error: false,
+        };
+
+        const nodeID3AdapterStub = sinon.createStubInstance(NodeID3Adapter);
+        nodeID3AdapterStub.update.throws(Error);
+
+        await expect(() =>
+            new AudioFileRepository(nodeID3AdapterStub).update(
+                directory,
+                filePath,
+                audioFile,
+            ),
+        ).rejects.toThrow(Error);
+    });
+});

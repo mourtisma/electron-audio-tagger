@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 import AudioFileController from '@controller/audio-file-controller';
 import helpers from '@view/electron-helpers';
 import MainContainer from '@view/main-container';
@@ -16,6 +16,7 @@ afterEach(() => {
 test('Renders a grid with the audio files information', async () => {
     const {
         getByText,
+        getByDisplayValue,
         findByText,
         findByTestId,
         getByTestId,
@@ -54,11 +55,15 @@ test('Renders a grid with the audio files information', async () => {
     fireEvent.click(getByTestId('edit-file1.mp3'));
 
     expect(await findByText('Edit file1.mp3')).toBeInTheDocument();
-    expect(await findByText('Title: File 1')).toBeInTheDocument();
 
-    fireEvent.click(getByTestId('close'));
+    sinon
+        .stub(AudioFileController, 'editFile')
+        .resolves({ name: 'file1.mp3', title: 'File 1', error: false });
+
+    await act(async () => {
+        fireEvent.click(getByDisplayValue('Edit file'));
+    });
     expect(queryByText('Edit file1.mp3')).not.toBeInTheDocument();
-    expect(queryByText('Title: File 1')).not.toBeInTheDocument();
 });
 
 test('Shows an error message when the opening of the directory fails', async () => {
