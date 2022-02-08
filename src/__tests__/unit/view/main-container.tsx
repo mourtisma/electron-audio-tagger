@@ -58,12 +58,14 @@ test('Renders a grid with the audio files information', async () => {
 
     sinon
         .stub(AudioFileController, 'editFile')
-        .resolves({ name: 'file1.mp3', title: 'File 1', error: false });
+        .resolves({ name: 'file1.mp3', title: 'File 1 - New', error: false });
 
     await act(async () => {
         fireEvent.click(getByDisplayValue('Edit file'));
     });
     expect(queryByText('Edit file1.mp3')).not.toBeInTheDocument();
+
+    expect(getByText('File 1 - New')).toBeInTheDocument();
 });
 
 test('Shows an error message when the opening of the directory fails', async () => {

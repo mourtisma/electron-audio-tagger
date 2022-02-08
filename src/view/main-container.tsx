@@ -84,6 +84,14 @@ export default (): JSX.Element => {
 
         handleEditDialogClose();
 
+        setAudioFiles(
+            audioFiles.map((audioFile) =>
+                audioFile.name === editedAudioFile.name
+                    ? editedAudioFile
+                    : audioFile,
+            ),
+        );
+
         return editedAudioFile;
     };
 
