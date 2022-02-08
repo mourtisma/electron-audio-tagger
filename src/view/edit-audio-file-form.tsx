@@ -4,10 +4,20 @@ import { useForm, Controller } from 'react-hook-form';
 
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
+import { makeStyles } from '@material-ui/styles';
 import AudioFile from '@model/audio-file';
 import { EditAudioFileContext } from './context';
 
+const useStyles = makeStyles({
+    editButton: {
+        position: 'absolute',
+        right: '10em',
+        bottom: '0.5em',
+    },
+});
+
 export default (): JSX.Element => {
+    const classes = useStyles();
     const { audioFile, editAudioFile } = useContext(EditAudioFileContext);
     const [audioFileValues, setAudioFileValues] = useState<AudioFile>(
         audioFile,
@@ -58,7 +68,11 @@ export default (): JSX.Element => {
                         )}
                     />
 
-                    <input type="submit" value="Edit file" />
+                    <input
+                        type="submit"
+                        value="Edit file"
+                        className={classes.editButton}
+                    />
                 </form>
                 <Snackbar
                     open={error}

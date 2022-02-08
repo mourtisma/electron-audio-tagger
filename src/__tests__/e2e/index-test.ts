@@ -14,7 +14,6 @@ test('Main page', async (t) => {
     // Remove the tags of the sample file
     await NodeID3.Promise.removeTags(path.join(directory, 'name.mp3'));
 
-    await t.maximizeWindow();
     await setElectronDialogHandler(
         () => ({ canceled: false, filePaths: [directory] }),
         { directory },
