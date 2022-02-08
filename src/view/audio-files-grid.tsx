@@ -14,7 +14,7 @@ interface AudioFilesGridProps {
     audioFiles: AudioFile[];
     onFileSelect: (filename: string) => void;
 }
-export default ({
+const AudioFilesGrid = ({
     audioFiles,
     onFileSelect,
 }: AudioFilesGridProps): JSX.Element => {
@@ -76,3 +76,10 @@ export default ({
         </div>
     );
 };
+
+export default React.memo(
+    AudioFilesGrid,
+    (prevProps, nextProps) =>
+        JSON.stringify(prevProps.audioFiles) ===
+        JSON.stringify(nextProps.audioFiles),
+);
