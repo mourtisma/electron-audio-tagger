@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import NodeID3Adapter from '@model/adapters/node-id3-adapter';
 import AudioFile from '@model/audio-file';
+import { audioFileMp3, audioFileWav } from '../../audio-files-fixtures';
 
 const directory: string = 'my-files/';
 
@@ -40,16 +41,8 @@ describe('NodeID3Adapter#getAll', () => {
         );
 
         expect(audioFiles).toHaveLength(2);
-        expect(audioFiles[0]).toStrictEqual({
-            name: 'file1.mp3',
-            title: 'File 1',
-            error: false,
-        });
-        expect(audioFiles[1]).toStrictEqual({
-            name: 'file2.wav',
-            title: 'File 2',
-            error: false,
-        });
+        expect(audioFiles[0]).toStrictEqual(audioFileMp3);
+        expect(audioFiles[1]).toStrictEqual(audioFileWav);
     });
 
     it('Throws an error when reading the files in a directory was unsuccessful', () => {
@@ -84,11 +77,7 @@ describe('NodeID3Adapter#getAll', () => {
         );
 
         expect(audioFiles).toHaveLength(2);
-        expect(audioFiles[0]).toStrictEqual({
-            name: 'file1.mp3',
-            title: 'File 1',
-            error: false,
-        });
+        expect(audioFiles[0]).toStrictEqual(audioFileMp3);
         expect(audioFiles[1]).toStrictEqual({ name: 'file2.wav', error: true });
     });
 });
@@ -108,11 +97,7 @@ describe('NodeID3Adapter#getOne', () => {
             'myDir/',
             'file1.mp3',
         );
-        expect(audioFile).toStrictEqual({
-            name: 'file1.mp3',
-            title: 'File 1',
-            error: false,
-        });
+        expect(audioFile).toStrictEqual(audioFileMp3);
     });
 
     it('Marks the file as errored whenever NodeID3 fails to read its tags', async () => {
@@ -139,18 +124,12 @@ describe('NodeID3Adapter#update', () => {
         };
         update.withArgs(tags, 'myDir/file1.mp3').resolves(true);
 
-        const audioFile: AudioFile = {
-            name: 'file1.mp3',
-            title: 'File 1',
-            error: false,
-        };
-
         const newAudioFile: AudioFile = await new NodeID3Adapter().update(
             'myDir/',
             'file1.mp3',
-            audioFile,
+            audioFileMp3,
         );
-        expect(newAudioFile).toStrictEqual(audioFile);
+        expect(newAudioFile).toStrictEqual(audioFileMp3);
     });
 
     it('Returns an error whenever NodeID3 fails to update the tags of a file', async () => {
@@ -160,14 +139,8 @@ describe('NodeID3Adapter#update', () => {
         };
         update.withArgs(tags, 'myDir/file1.mp3').rejects(Error);
 
-        const audioFile: AudioFile = {
-            name: 'file1.mp3',
-            title: 'File 1',
-            error: false,
-        };
-
         await expect(() =>
-            new NodeID3Adapter().update('myDir/', 'file1.mp3', audioFile),
+            new NodeID3Adapter().update('myDir/', 'file1.mp3', audioFileMp3),
         ).rejects.toThrow();
     });
 });

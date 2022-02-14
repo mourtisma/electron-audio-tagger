@@ -4,6 +4,7 @@ import { render, fireEvent, act } from '@testing-library/react';
 import AudioFileController from '@controller/audio-file-controller';
 import helpers from '@view/electron-helpers';
 import MainContainer from '@view/main-container';
+import { audioFileMp3, audioFileWithError } from '../audio-files-fixtures';
 
 jest.mock('@view/electron-helpers', () => ({
     showOpenDialog: jest.fn(),
@@ -27,10 +28,9 @@ test('Renders a grid with the audio files information', async () => {
         filePaths: ['directory'],
         canceled: false,
     }));
-    sinon.stub(AudioFileController, 'openDirectory').resolves([
-        { name: 'file1.mp3', error: false },
-        { name: 'file2.mp3', error: true },
-    ]);
+    sinon
+        .stub(AudioFileController, 'openDirectory')
+        .resolves([audioFileMp3, audioFileWithError]);
 
     fireEvent.click(getByText('Open directory'));
 
@@ -48,9 +48,7 @@ test('Renders a grid with the audio files information', async () => {
 
     expect(await findByText('Change directory')).toBeInTheDocument();
 
-    sinon
-        .stub(AudioFileController, 'readFile')
-        .resolves({ name: 'file1.mp3', title: 'File 1', error: false });
+    sinon.stub(AudioFileController, 'readFile').resolves(audioFileMp3);
 
     fireEvent.click(getByTestId('edit-file1.mp3'));
 
@@ -58,7 +56,7 @@ test('Renders a grid with the audio files information', async () => {
 
     sinon
         .stub(AudioFileController, 'editFile')
-        .resolves({ name: 'file1.mp3', title: 'File 1 - New', error: false });
+        .resolves({ ...audioFileMp3, title: 'File 1 - New' });
 
     await act(async () => {
         fireEvent.click(getByDisplayValue('Edit file'));
@@ -111,10 +109,9 @@ test('Proposes to change directory when a directory is selected and the new dial
         filePaths: ['directory'],
         canceled: false,
     }));
-    sinon.stub(AudioFileController, 'openDirectory').resolves([
-        { name: 'file1.mp3', error: false },
-        { name: 'file2.mp3', error: true },
-    ]);
+    sinon
+        .stub(AudioFileController, 'openDirectory')
+        .resolves([audioFileMp3, audioFileWithError]);
 
     fireEvent.click(getByText('Open directory'));
     expect(await findByText('Change directory')).toBeInTheDocument();

@@ -4,13 +4,9 @@ import { render, fireEvent, act } from '@testing-library/react';
 import EditAudioFileForm from '@view/edit-audio-file-form';
 import AudioFile from '@model/audio-file';
 import { EditAudioFileContext } from '@view/context';
+import { audioFileMp3 as audioFile } from '../audio-files-fixtures';
 
 test('Fills the form with the data of a particular audio file', async () => {
-    const audioFile: AudioFile = {
-        name: 'file1.mp3',
-        title: 'File 1',
-        error: false,
-    };
     const { getByLabelText } = render(
         <EditAudioFileContext.Provider value={{ audioFile }}>
             <EditAudioFileForm />
@@ -22,9 +18,14 @@ test('Fills the form with the data of a particular audio file', async () => {
 });
 
 test('Fills the form with the data of a particular audio file without title', async () => {
-    const audioFile: AudioFile = { name: 'file1.mp3', error: false };
+    const audioFileWithoutTitle: AudioFile = {
+        name: 'file1.mp3',
+        error: false,
+    };
     const { getByLabelText } = render(
-        <EditAudioFileContext.Provider value={{ audioFile }}>
+        <EditAudioFileContext.Provider
+            value={{ audioFile: audioFileWithoutTitle }}
+        >
             <EditAudioFileForm />
         </EditAudioFileContext.Provider>,
     );
@@ -35,11 +36,6 @@ test('Fills the form with the data of a particular audio file without title', as
 });
 
 test('Calls the change and submit handlers when necessary', async () => {
-    const audioFile: AudioFile = {
-        name: 'file1.mp3',
-        title: 'File 1',
-        error: false,
-    };
     const editAudioFile = jest.fn();
     const { getByLabelText, getByDisplayValue } = render(
         <EditAudioFileContext.Provider value={{ audioFile, editAudioFile }}>
@@ -58,19 +54,12 @@ test('Calls the change and submit handlers when necessary', async () => {
     });
 
     expect(editAudioFile).toBeCalledWith({
-        name: 'file1.mp3',
+        ...audioFile,
         title: 'File 1 - New',
-        error: false,
     });
 });
 
 test('Shows a snackbar if an error occurs when editing the file', async () => {
-    const audioFile: AudioFile = {
-        name: 'file1.mp3',
-        title: 'File 1',
-        error: false,
-    };
-
     const editAudioFile = sinon.stub();
     editAudioFile.throws();
 
