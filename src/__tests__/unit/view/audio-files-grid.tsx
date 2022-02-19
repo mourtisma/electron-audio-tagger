@@ -13,6 +13,11 @@ test('Renders a grid with the audio files information', async () => {
 
     expect(getByText('file1.mp3')).toBeInTheDocument();
     expect(getByText('File 1')).toBeInTheDocument();
+    expect(getByText('Artist 1')).toBeInTheDocument();
+    expect(getByText('Album 1')).toBeInTheDocument();
+    expect(getByText('Composer 1')).toBeInTheDocument();
+    expect(getByText('1/3')).toBeInTheDocument();
+
     expect(getByText('file2.mp3')).toBeInTheDocument();
     expect(getByTestId('error-file2.mp3')).toBeInTheDocument();
     expect(getByTestId('edit-file1.mp3')).toBeInTheDocument();

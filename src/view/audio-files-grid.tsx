@@ -9,6 +9,7 @@ import ErrorIcon from '@material-ui/icons/Error';
 import EditIcon from '@material-ui/icons/Edit';
 import Tooltip from '@material-ui/core/Tooltip';
 import AudioFile from '@model/audio-file';
+import { getTrackNumber } from '@helpers/node-id3';
 
 interface AudioFilesGridProps {
     audioFiles: AudioFile[];
@@ -25,6 +26,18 @@ const AudioFilesGrid = ({
     const columns = [
         { field: 'name', headerName: 'Name', flex: 1 },
         { field: 'title', headerName: 'Title', flex: 1 },
+        { field: 'artist', headerName: 'Artist', flex: 1 },
+        { field: 'album', headerName: 'Album', flex: 1 },
+        { field: 'composer', headerName: 'Composer', flex: 1 },
+        {
+            field: 'trackNumber',
+            headerName: 'Track position',
+            flex: 1,
+            valueGetter: ({
+                row: { trackPosition, totalNumberOfTracks },
+            }: GridCellParams): string =>
+                getTrackNumber(trackPosition, totalNumberOfTracks),
+        },
         {
             field: '',
             headerName: 'Edit',

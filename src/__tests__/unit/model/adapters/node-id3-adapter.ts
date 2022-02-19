@@ -31,9 +31,17 @@ describe('NodeID3Adapter#getAll', () => {
         const read = sinon.stub(NodeID3.Promise, 'read');
         read.withArgs(path.join(directory, 'file1.mp3')).resolves({
             title: 'File 1',
+            artist: 'Artist 1',
+            album: 'Album 1',
+            composer: 'Composer 1',
+            trackNumber: '1/3',
         });
         read.withArgs(path.join(directory, 'file2.wav')).resolves({
             title: 'File 2',
+            artist: 'Artist 1',
+            album: 'Album 1',
+            composer: 'Composer 1',
+            trackNumber: '1/3',
         });
 
         const audioFiles: AudioFile[] = await new NodeID3Adapter().getAll(
@@ -69,6 +77,10 @@ describe('NodeID3Adapter#getAll', () => {
         const read = sinon.stub(NodeID3.Promise, 'read');
         read.withArgs(path.join(directory, 'file1.mp3')).resolves({
             title: 'File 1',
+            artist: 'Artist 1',
+            album: 'Album 1',
+            composer: 'Composer 1',
+            trackNumber: '1/3',
         });
         read.withArgs(path.join(directory, 'file2.wav')).rejects(Error);
 
@@ -91,6 +103,10 @@ describe('NodeID3Adapter#getOne', () => {
         const read = sinon.stub(NodeID3.Promise, 'read');
         read.withArgs('myDir/file1.mp3').resolves({
             title: 'File 1',
+            artist: 'Artist 1',
+            album: 'Album 1',
+            composer: 'Composer 1',
+            trackNumber: '1/3',
         });
 
         const audioFile: AudioFile = await new NodeID3Adapter().getOne(
@@ -121,6 +137,10 @@ describe('NodeID3Adapter#update', () => {
         const update = sinon.stub(NodeID3.Promise, 'update');
         const tags: NodeID3.Tags = {
             title: 'File 1',
+            artist: 'Artist 1',
+            album: 'Album 1',
+            composer: 'Composer 1',
+            trackNumber: '1/3',
         };
         update.withArgs(tags, 'myDir/file1.mp3').resolves(true);
 
@@ -136,6 +156,10 @@ describe('NodeID3Adapter#update', () => {
         const update = sinon.stub(NodeID3.Promise, 'update');
         const tags: NodeID3.Tags = {
             title: 'File 1',
+            artist: 'Artist 1',
+            album: 'Album 1',
+            composer: 'Composer 1',
+            trackNumber: '1/3',
         };
         update.withArgs(tags, 'myDir/file1.mp3').rejects(Error);
 

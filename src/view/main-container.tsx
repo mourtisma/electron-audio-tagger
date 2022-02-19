@@ -5,10 +5,10 @@ import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
+import electronHelpers from '@helpers/electron';
 import { AudioGridContext, EditAudioFileContext } from './context';
 import AudioFilesGrid from './audio-files-grid';
 import EditDialog from './edit-dialog';
-import helpers from './electron-helpers';
 
 const OpenButton = (): JSX.Element => (
     <AudioGridContext.Consumer>
@@ -37,7 +37,7 @@ export default (): JSX.Element => {
     const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false);
 
     const handleClick = async () => {
-        const { canceled, filePaths } = await helpers.showOpenDialog();
+        const { canceled, filePaths } = await electronHelpers.showOpenDialog();
 
         if (!canceled) {
             const [directory] = filePaths;

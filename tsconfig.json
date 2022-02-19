@@ -19,7 +19,8 @@
             "@model/*": ["./src/model/*"],
             "@view/*": ["./src/view/*"],
             "@controller/*": ["./src/controller/*"],
-            "@service/*": ["./src/service/*"]
+            "@service/*": ["./src/service/*"],
+            "@helpers/*": ["./src/helpers/*"]
         }
     },
     "include": ["src/**/*", "./jest-setup.ts"]

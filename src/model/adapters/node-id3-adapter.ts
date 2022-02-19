@@ -1,6 +1,7 @@
 import NodeID3 from 'node-id3';
 import { readdir } from 'fs/promises';
 import path from 'path';
+import { parseTrackNumber, getTrackNumber } from '@helpers/node-id3';
 import AudioFile from '../audio-file';
 import GenericAdapter from './generic-adapter';
 
@@ -14,15 +15,38 @@ export default class NodeID3Adapter implements GenericAdapter {
     ): AudioFile {
         let result: AudioFile = { name, error };
         if (tags) {
-            const { title } = tags;
-            result = { title, ...result };
+            const { title, artist, album, composer, trackNumber } = tags;
+            const [trackPosition, totalNumberOfTracks] = parseTrackNumber(
+                trackNumber,
+            );
+            result = {
+                title,
+                artist,
+                album,
+                composer,
+                trackPosition,
+                totalNumberOfTracks,
+                ...result,
+            };
         }
 
         return result;
     }
 
-    private static toNodeID3Tags({ title }: AudioFile): NodeID3.Tags {
-        return { title };
+    private static toNodeID3Tags(audioFile: AudioFile): NodeID3.Tags {
+        const {
+            title,
+            artist,
+            album,
+            composer,
+            trackPosition,
+            totalNumberOfTracks,
+        } = audioFile;
+        const trackNumber: string = getTrackNumber(
+            trackPosition,
+            totalNumberOfTracks,
+        );
+        return { title, artist, album, composer, trackNumber };
     }
 
     private static async readAudioFile(
