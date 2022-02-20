@@ -82,6 +82,7 @@ export default class NodeID3Adapter implements GenericAdapter {
         try {
             fileNames = await this.getAudioFilesFromDirectory(directory);
         } catch (error) {
+            console.log(error);
             throw new Error(
                 `There was an error reading directory ${directory}`,
             );
