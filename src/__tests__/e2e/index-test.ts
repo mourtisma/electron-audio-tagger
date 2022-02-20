@@ -76,6 +76,8 @@ test('Main page', async (t) => {
     );
     await t.click(screen.getByTestId('open-button'));
     await t.wait(2000);
+    const { log } = await t.getBrowserConsoleMessages();
+    console.log(log);
     await t.expect(screen.getByText('sample-file-1.mp3').exists).ok();
 
     // Open edit dialog
@@ -118,7 +120,4 @@ test('Main page', async (t) => {
 
     await t.expect(screen.getByText('Sample File - New').exists).ok();
     await t.expect(screen.getByText('2/4').exists).ok();
-
-    const { log } = await t.getBrowserConsoleMessages();
-    console.log(log);
 });
