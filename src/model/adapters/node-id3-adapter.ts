@@ -78,6 +78,7 @@ export default class NodeID3Adapter implements GenericAdapter {
     }
 
     async getAll(directory: string): Promise<AudioFile[]> {
+        console.log(directory);
         let fileNames: string[] = [];
         try {
             fileNames = await this.getAudioFilesFromDirectory(directory);

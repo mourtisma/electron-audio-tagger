@@ -1,4 +1,4 @@
-import { ClientFunction } from 'testcafe';
+import 'testcafe';
 
 import NodeID3 from 'node-id3';
 import path from 'path';
@@ -8,8 +8,6 @@ import { screen } from '@testing-library/testcafe';
 fixture`Getting Started`.page(
     '../../../.webpack/renderer/main_window/index.html',
 );
-
-const getPageHTML = ClientFunction(() => document.documentElement.outerHTML);
 
 test('Main page', async (t) => {
     const dir1 = path.join(__dirname, 'audio-files', 'dir1');
@@ -78,7 +76,6 @@ test('Main page', async (t) => {
     );
     await t.click(screen.getByTestId('open-button'));
     await t.wait(2000);
-    console.log(await getPageHTML());
     await t.expect(screen.getByText('sample-file-1.mp3').exists).ok();
 
     // Open edit dialog
@@ -121,4 +118,7 @@ test('Main page', async (t) => {
 
     await t.expect(screen.getByText('Sample File - New').exists).ok();
     await t.expect(screen.getByText('2/4').exists).ok();
+
+    const { log } = await t.getBrowserConsoleMessages();
+    console.log(log);
 });
