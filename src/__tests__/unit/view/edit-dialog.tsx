@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import EditDialog from '@view/edit-dialog';
-import { EditAudioFileContext } from '@view/context';
+import EditAudioFileContext from '@view/context';
 import { audioFileMp3 as audioFile } from '../audio-files-fixtures';
 
 test('Renders the data of a particular audio file and closes after edit', async () => {

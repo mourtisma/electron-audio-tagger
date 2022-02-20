@@ -7,7 +7,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import { makeStyles } from '@material-ui/styles';
 import AudioFile from '@model/audio-file';
 import { verifyTrackNumber } from '@helpers/node-id3';
-import { EditAudioFileContext } from './context';
+import EditAudioFileContext from './context';
 
 const parseInputValue = (
     target: HTMLInputElement,

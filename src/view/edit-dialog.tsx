@@ -4,7 +4,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/styles';
 import EditAudioFileForm from './edit-audio-file-form';
-import { EditAudioFileContext } from './context';
+import EditAudioFileContext from './context';
 
 const useStyles = makeStyles({
     closeButton: {
