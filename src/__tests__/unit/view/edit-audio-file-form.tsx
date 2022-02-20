@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { render, fireEvent, act } from '@testing-library/react';
 import EditAudioFileForm from '@view/edit-audio-file-form';
 import AudioFile from '@model/audio-file';
-import { EditAudioFileContext } from '@view/context';
+import EditAudioFileContext from '@view/context';
 import { audioFileMp3 as audioFile } from '../audio-files-fixtures';
 
 test('Fills the form with the data of a particular audio file', async () => {

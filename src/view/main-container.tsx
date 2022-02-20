@@ -6,23 +6,27 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
 import electronHelpers from '@helpers/electron';
-import { AudioGridContext, EditAudioFileContext } from './context';
+import EditAudioFileContext from './context';
 import AudioFilesGrid from './audio-files-grid';
 import EditDialog from './edit-dialog';
 
-const OpenButton = (): JSX.Element => (
-    <AudioGridContext.Consumer>
-        {({ handleClick, buttonText }) => (
-            <Button
-                id="open-button"
-                variant="contained"
-                color="primary"
-                onClick={() => handleClick()}
-            >
-                {buttonText}
-            </Button>
-        )}
-    </AudioGridContext.Consumer>
+interface OpenButtonProps {
+    handleClick: () => void | undefined;
+    buttonText: 'Open directory' | 'Change directory';
+}
+
+const OpenButton = ({
+    handleClick,
+    buttonText,
+}: OpenButtonProps): JSX.Element => (
+    <Button
+        id="open-button"
+        variant="contained"
+        color="primary"
+        onClick={handleClick}
+    >
+        {buttonText}
+    </Button>
 );
 
 export default (): JSX.Element => {
@@ -97,27 +101,25 @@ export default (): JSX.Element => {
 
     if (!selectedDirectory) {
         return (
-            <AudioGridContext.Provider
-                value={{ handleClick, buttonText: 'Open directory' }}
+            <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                minHeight="95vh"
             >
-                <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    minHeight="95vh"
-                >
-                    <OpenButton />
-                </Box>
-            </AudioGridContext.Provider>
+                <OpenButton
+                    handleClick={handleClick}
+                    buttonText="Open directory"
+                />
+            </Box>
         );
     }
     return (
         <>
-            <AudioGridContext.Provider
-                value={{ handleClick, buttonText: 'Change directory' }}
-            >
-                <OpenButton />
-            </AudioGridContext.Provider>
+            <OpenButton
+                handleClick={handleClick}
+                buttonText="Change directory"
+            />
             <Typography variant="h6">
                 Selected directory: {selectedDirectory}
             </Typography>
