@@ -77,6 +77,7 @@ test('Main page', async (t) => {
         { dir1 },
     );
     await t.click(screen.getByTestId('open-button'));
+    await t.wait(2000);
     console.log(await getPageHTML());
     await t.expect(screen.getByText('sample-file-1.mp3').exists).ok();
 
