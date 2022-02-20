@@ -19,6 +19,7 @@ module.exports = {
             '@view': path.resolve(__dirname, 'src/view'),
             '@controller': path.resolve(__dirname, 'src/controller'),
             '@service': path.resolve(__dirname, 'src/service'),
+            '@helpers': path.resolve(__dirname, 'src/helpers'),
         },
     },
 };

@@ -93,6 +93,7 @@ module.exports = {
         '@view/(.*)': '<rootDir>/src/view/$1',
         '@controller/(.*)': '<rootDir>/src/controller/$1',
         '@service/(.*)': '<rootDir>/src/service/$1',
+        '@helpers/(.*)': '<rootDir>/src/helpers/$1',
     },
 
     // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
@@ -164,9 +165,10 @@ module.exports = {
     // ],
 
     // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-    // testPathIgnorePatterns: [
-    //   "/node_modules/"
-    // ],
+    testPathIgnorePatterns: [
+        '/node_modules/',
+        './src/__tests__/unit/audio-files-fixtures.ts',
+    ],
 
     // The regexp pattern or array of patterns that Jest uses to detect test files
     // testRegex: [],

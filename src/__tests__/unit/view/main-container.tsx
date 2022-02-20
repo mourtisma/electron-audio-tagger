@@ -2,10 +2,11 @@ import sinon from 'sinon';
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
 import AudioFileController from '@controller/audio-file-controller';
-import helpers from '@view/electron-helpers';
+import electronHelpers from '@helpers/electron';
 import MainContainer from '@view/main-container';
+import { audioFileMp3, audioFileWithError } from '../audio-files-fixtures';
 
-jest.mock('@view/electron-helpers', () => ({
+jest.mock('@helpers/electron', () => ({
     showOpenDialog: jest.fn(),
 }));
 
@@ -22,15 +23,14 @@ test('Renders a grid with the audio files information', async () => {
         getByTestId,
         queryByText,
     } = render(<MainContainer />);
-    const showOpenDialogSpy = jest.spyOn(helpers, 'showOpenDialog');
+    const showOpenDialogSpy = jest.spyOn(electronHelpers, 'showOpenDialog');
     showOpenDialogSpy.mockImplementation(async () => ({
         filePaths: ['directory'],
         canceled: false,
     }));
-    sinon.stub(AudioFileController, 'openDirectory').resolves([
-        { name: 'file1.mp3', error: false },
-        { name: 'file2.mp3', error: true },
-    ]);
+    sinon
+        .stub(AudioFileController, 'openDirectory')
+        .resolves([audioFileMp3, audioFileWithError]);
 
     fireEvent.click(getByText('Open directory'));
 
@@ -48,9 +48,7 @@ test('Renders a grid with the audio files information', async () => {
 
     expect(await findByText('Change directory')).toBeInTheDocument();
 
-    sinon
-        .stub(AudioFileController, 'readFile')
-        .resolves({ name: 'file1.mp3', title: 'File 1', error: false });
+    sinon.stub(AudioFileController, 'readFile').resolves(audioFileMp3);
 
     fireEvent.click(getByTestId('edit-file1.mp3'));
 
@@ -58,7 +56,12 @@ test('Renders a grid with the audio files information', async () => {
 
     sinon
         .stub(AudioFileController, 'editFile')
-        .resolves({ name: 'file1.mp3', title: 'File 1 - New', error: false });
+        .resolves({
+            ...audioFileMp3,
+            title: 'File 1 - New',
+            trackPosition: 2,
+            totalNumberOfTracks: 4,
+        });
 
     await act(async () => {
         fireEvent.click(getByDisplayValue('Edit file'));
@@ -66,11 +69,12 @@ test('Renders a grid with the audio files information', async () => {
     expect(queryByText('Edit file1.mp3')).not.toBeInTheDocument();
 
     expect(getByText('File 1 - New')).toBeInTheDocument();
+    expect(getByText('2/4')).toBeInTheDocument();
 });
 
 test('Shows an error message when the opening of the directory fails', async () => {
     const { getByText, findByText } = render(<MainContainer />);
-    const showOpenDialogSpy = jest.spyOn(helpers, 'showOpenDialog');
+    const showOpenDialogSpy = jest.spyOn(electronHelpers, 'showOpenDialog');
     showOpenDialogSpy.mockImplementation(async () => ({
         filePaths: ['selectedDirectory'],
         canceled: false,
@@ -93,7 +97,7 @@ test('Shows an error message when the opening of the directory fails', async () 
 
 test('Does not render the grid when the user closes the open dialog', async () => {
     const { getByText, findByText } = render(<MainContainer />);
-    const showOpenDialogSpy = jest.spyOn(helpers, 'showOpenDialog');
+    const showOpenDialogSpy = jest.spyOn(electronHelpers, 'showOpenDialog');
     showOpenDialogSpy.mockImplementation(async () => ({
         filePaths: [],
         canceled: true,
@@ -106,15 +110,14 @@ test('Does not render the grid when the user closes the open dialog', async () =
 
 test('Proposes to change directory when a directory is selected and the new dialog is closed', async () => {
     const { getByText, findByText } = render(<MainContainer />);
-    const showOpenDialogSpy = jest.spyOn(helpers, 'showOpenDialog');
+    const showOpenDialogSpy = jest.spyOn(electronHelpers, 'showOpenDialog');
     showOpenDialogSpy.mockImplementation(async () => ({
         filePaths: ['directory'],
         canceled: false,
     }));
-    sinon.stub(AudioFileController, 'openDirectory').resolves([
-        { name: 'file1.mp3', error: false },
-        { name: 'file2.mp3', error: true },
-    ]);
+    sinon
+        .stub(AudioFileController, 'openDirectory')
+        .resolves([audioFileMp3, audioFileWithError]);
 
     fireEvent.click(getByText('Open directory'));
     expect(await findByText('Change directory')).toBeInTheDocument();
