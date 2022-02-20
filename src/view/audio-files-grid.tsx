@@ -13,14 +13,16 @@ import { getTrackNumber } from '@helpers/node-id3';
 
 interface AudioFilesGridProps {
     audioFiles: AudioFile[];
-    onFileSelect: (filename: string) => void;
+    onFileSelect: (filename: string, directory: string) => void;
+    selectedDirectory: string;
 }
 const AudioFilesGrid = ({
     audioFiles,
     onFileSelect,
+    selectedDirectory,
 }: AudioFilesGridProps): JSX.Element => {
     const onEditIconSelect = (selectedFile: GridRowId) => {
-        onFileSelect(selectedFile as string);
+        onFileSelect(selectedFile as string, selectedDirectory);
     };
 
     const columns = [
@@ -93,6 +95,7 @@ const AudioFilesGrid = ({
 export default React.memo(
     AudioFilesGrid,
     (prevProps, nextProps) =>
+        prevProps.selectedDirectory === nextProps.selectedDirectory &&
         JSON.stringify(prevProps.audioFiles) ===
-        JSON.stringify(nextProps.audioFiles),
+            JSON.stringify(nextProps.audioFiles),
 );

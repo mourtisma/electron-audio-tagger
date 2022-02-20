@@ -19,12 +19,7 @@ const OpenButton = ({
     handleClick,
     buttonText,
 }: OpenButtonProps): JSX.Element => (
-    <Button
-        id="open-button"
-        variant="contained"
-        color="primary"
-        onClick={handleClick}
-    >
+    <Button variant="contained" color="primary" onClick={handleClick}>
         {buttonText}
     </Button>
 );
@@ -132,6 +127,7 @@ export default (): JSX.Element => {
             <AudioFilesGrid
                 audioFiles={audioFiles}
                 onFileSelect={onFileSelect}
+                selectedDirectory={selectedDirectory}
             />
             <EditAudioFileContext.Provider
                 value={{ audioFile: audioFileToEdit, editAudioFile }}
