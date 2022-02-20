@@ -95,9 +95,36 @@ test('Calls the change and submit handlers when necessary', async () => {
     });
 });
 
+test('Shows an error if the track position is superior to the total number of tracks', async () => {
+    const editAudioFile = jest.fn();
+    const { getByLabelText, getAllByText } = render(
+        <EditAudioFileContext.Provider value={{ audioFile, editAudioFile }}>
+            <EditAudioFileForm />
+        </EditAudioFileContext.Provider>,
+    );
+
+    const trackPositionInput = getByLabelText(
+        'Track position',
+    ) as HTMLInputElement;
+    const totalTracksInput = getByLabelText('Total tracks') as HTMLInputElement;
+
+    await act(async () => {
+        fireEvent.change(trackPositionInput, { target: { value: '2' } });
+    });
+    await act(async () => {
+        fireEvent.change(totalTracksInput, { target: { value: '1' } });
+    });
+
+    expect(
+        getAllByText(
+            'The track position must be lower than the total number of tracks',
+        ).length,
+    ).toBe(2);
+});
+
 test('Shows a snackbar if an error occurs when editing the file', async () => {
     const editAudioFile = sinon.stub();
-    editAudioFile.throws();
+    editAudioFile.throws('Error when editing file1.mp3');
 
     const { getByLabelText, getByDisplayValue, getByText } = render(
         <EditAudioFileContext.Provider value={{ audioFile, editAudioFile }}>

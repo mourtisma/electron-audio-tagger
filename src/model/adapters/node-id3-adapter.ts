@@ -1,7 +1,11 @@
 import NodeID3 from 'node-id3';
 import { readdir } from 'fs/promises';
 import path from 'path';
-import { parseTrackNumber, getTrackNumber } from '@helpers/node-id3';
+import {
+    parseTrackNumber,
+    getTrackNumber,
+    verifyTrackNumber,
+} from '@helpers/node-id3';
 import AudioFile from '../audio-file';
 import GenericAdapter from './generic-adapter';
 
@@ -99,6 +103,16 @@ export default class NodeID3Adapter implements GenericAdapter {
         fileName: string,
         newAudioFile: AudioFile,
     ): Promise<AudioFile> {
+        if (
+            !verifyTrackNumber(
+                newAudioFile.trackPosition,
+                newAudioFile.totalNumberOfTracks,
+            )
+        ) {
+            throw new Error(
+                'The track position must be lower than the total number of tracks',
+            );
+        }
         const newTags: NodeID3.Tags = NodeID3Adapter.toNodeID3Tags(
             newAudioFile,
         );

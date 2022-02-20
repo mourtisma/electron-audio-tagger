@@ -167,4 +167,16 @@ describe('NodeID3Adapter#update', () => {
             new NodeID3Adapter().update('myDir/', 'file1.mp3', audioFileMp3),
         ).rejects.toThrow();
     });
+
+    it('Returns an error the track position is greater than the total number of tracks', async () => {
+        await expect(() =>
+            new NodeID3Adapter().update('myDir/', 'file1.mp3', {
+                ...audioFileMp3,
+                trackPosition: 2,
+                totalNumberOfTracks: 1,
+            }),
+        ).rejects.toThrow(
+            'The track position must be lower than the total number of tracks',
+        );
+    });
 });

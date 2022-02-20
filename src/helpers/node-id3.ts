@@ -24,3 +24,11 @@ export const getTrackNumber = (
     trackPosition && totalNumberOfTracks
         ? `${trackPosition}/${totalNumberOfTracks}`
         : '';
+
+export const verifyTrackNumber = (
+    trackPosition: number | undefined,
+    totalNumberOfTracks: number | undefined,
+): boolean =>
+    !trackPosition ||
+    !totalNumberOfTracks ||
+    trackPosition <= totalNumberOfTracks;

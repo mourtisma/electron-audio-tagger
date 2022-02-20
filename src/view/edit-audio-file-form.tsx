@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 import { makeStyles } from '@material-ui/styles';
 import AudioFile from '@model/audio-file';
+import { verifyTrackNumber } from '@helpers/node-id3';
 import { EditAudioFileContext } from './context';
 
 const parseInputValue = (
@@ -34,15 +35,32 @@ export default (): JSX.Element => {
     const [audioFileValues, setAudioFileValues] = useState<AudioFile>(
         audioFile,
     );
-    const [error, setError] = useState<boolean>(false);
+    const [editError, setEditError] = useState<string>('');
 
     const handleErrorSnackbarClose = () => {
-        setError(false);
+        setEditError('');
     };
 
     useEffect(() => {
         setAudioFileValues(audioFile);
     }, [audioFile]);
+
+    const {
+        control,
+        handleSubmit,
+        trigger,
+        formState: { errors },
+    } = useForm<AudioFile>({
+        defaultValues: audioFileValues,
+    });
+
+    const onSubmit = async () => {
+        try {
+            await editAudioFile(audioFileValues);
+        } catch (e) {
+            setEditError(e);
+        }
+    };
 
     const handleChange = (e: ChangeEvent) => {
         const target = e.target as HTMLInputElement;
@@ -51,18 +69,15 @@ export default (): JSX.Element => {
             ...audioFileValues,
             [target.name]: newValue,
         });
-    };
-    const onSubmit = async () => {
-        try {
-            await editAudioFile(audioFileValues);
-        } catch (e) {
-            setError(true);
-        }
+        trigger();
     };
 
-    const { control, handleSubmit } = useForm({
-        defaultValues: audioFileValues,
-    });
+    const validateTrackFields = () =>
+        verifyTrackNumber(
+            audioFileValues.trackPosition,
+            audioFileValues.totalNumberOfTracks,
+        ) || 'The track position must be lower than the total number of tracks';
+
     return (
         audioFileValues && (
             <>
@@ -122,6 +137,7 @@ export default (): JSX.Element => {
                     <Controller
                         name="trackPosition"
                         control={control}
+                        rules={{ validate: validateTrackFields }}
                         render={({ field: { name } }) => (
                             <TextField
                                 id="trackPosition"
@@ -130,12 +146,16 @@ export default (): JSX.Element => {
                                 name={name}
                                 value={audioFileValues.trackPosition || ''}
                                 onChange={handleChange}
+                                inputProps={{ min: 0 }}
+                                error={Boolean(errors?.name)}
+                                helperText={errors?.trackPosition?.message}
                             />
                         )}
                     />
                     <Controller
                         name="totalNumberOfTracks"
                         control={control}
+                        rules={{ validate: validateTrackFields }}
                         render={({ field: { name } }) => (
                             <TextField
                                 id="totalNumberOfTracks"
@@ -146,10 +166,14 @@ export default (): JSX.Element => {
                                     audioFileValues.totalNumberOfTracks || ''
                                 }
                                 onChange={handleChange}
+                                inputProps={{ min: 0 }}
+                                error={Boolean(errors?.name)}
+                                helperText={
+                                    errors?.totalNumberOfTracks?.message
+                                }
                             />
                         )}
                     />
-
                     <input
                         type="submit"
                         value="Edit file"
@@ -157,10 +181,10 @@ export default (): JSX.Element => {
                     />
                 </form>
                 <Snackbar
-                    open={error}
+                    open={!!editError}
                     onClose={handleErrorSnackbarClose}
                     autoHideDuration={5000}
-                    message={`Error when editing ${audioFileValues.name}`}
+                    message={`${editError}`}
                 />
             </>
         )
