@@ -73,7 +73,7 @@ test('Main page', async (t) => {
         () => ({ canceled: false, filePaths: [dir1] }),
         { dir1 },
     );
-    await t.click(screen.getByText('Change directory'));
+    await t.click(screen.getByTestId('open-button'));
     await t.expect(screen.getByText('sample-file-1.mp3').exists).ok();
 
     // Open edit dialog

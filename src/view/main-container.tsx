@@ -19,7 +19,12 @@ const OpenButton = ({
     handleClick,
     buttonText,
 }: OpenButtonProps): JSX.Element => (
-    <Button variant="contained" color="primary" onClick={handleClick}>
+    <Button
+        data-testid="open-button"
+        variant="contained"
+        color="primary"
+        onClick={handleClick}
+    >
         {buttonText}
     </Button>
 );
