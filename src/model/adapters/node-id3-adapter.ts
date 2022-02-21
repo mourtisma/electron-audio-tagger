@@ -78,12 +78,10 @@ export default class NodeID3Adapter implements GenericAdapter {
     }
 
     async getAll(directory: string): Promise<AudioFile[]> {
-        console.log(directory);
         let fileNames: string[] = [];
         try {
             fileNames = await this.getAudioFilesFromDirectory(directory);
         } catch (error) {
-            console.log(error);
             throw new Error(
                 `There was an error reading directory ${directory}`,
             );

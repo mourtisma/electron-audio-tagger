@@ -9,6 +9,12 @@ fixture`Getting Started`.page(
     '../../../.webpack/renderer/main_window/index.html',
 );
 
+/**
+ * If we use t.click() on the dialog close button, the dialog disappears, but the other DOM elements are not
+ * clickable anymore. As a workaround, we use a testcafe ClientFunction which will trigger a regular click action
+ *
+ * Link to the issue: https://github.com/DevExpress/testcafe/issues/4146
+ */
 const clickCloseBtn = ClientFunction(() => {
     (document.querySelector('#close-edit-dialog-btn') as HTMLElement).click();
 });
@@ -72,8 +78,6 @@ test('Main page', async (t) => {
     await t.expect(totalTracksInput.value).eql('4');
 
     // Close dialog
-    // await t.click(screen.getByTestId('close'));
-
     await clickCloseBtn();
 
     await setElectronDialogHandler(
@@ -82,11 +86,8 @@ test('Main page', async (t) => {
     );
 
     // Change directory
-
     await t.click(screen.getByText('Change directory'));
 
-    const { log } = await t.getBrowserConsoleMessages();
-    console.log(log);
     await t.expect(screen.getByText('sample-file-1.mp3').exists).ok();
 
     // Open edit dialog

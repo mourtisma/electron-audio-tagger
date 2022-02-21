@@ -19,13 +19,7 @@ const OpenButton = ({
     handleClick,
     buttonText,
 }: OpenButtonProps): JSX.Element => (
-    <Button
-        data-testid="open-button"
-        variant="contained"
-        color="primary"
-        id="open-button"
-        onClick={handleClick}
-    >
+    <Button variant="contained" color="primary" onClick={handleClick}>
         {buttonText}
     </Button>
 );
@@ -42,9 +36,7 @@ export default (): JSX.Element => {
     const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false);
 
     const handleClick = async () => {
-        console.log('clicked');
         const { canceled, filePaths } = await electronHelpers.showOpenDialog();
-        console.log(canceled, filePaths);
 
         if (!canceled) {
             const [directory] = filePaths;
