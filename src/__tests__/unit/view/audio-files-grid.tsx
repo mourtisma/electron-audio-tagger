@@ -8,6 +8,7 @@ test('Renders a grid with the audio files information', async () => {
         <AudioFilesGrid
             audioFiles={[audioFileMp3, audioFileWithError]}
             onFileSelect={() => {}}
+            selectedDirectory="directory"
         />,
     );
 

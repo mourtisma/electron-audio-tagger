@@ -14,7 +14,7 @@ afterEach(() => {
     sinon.restore();
 });
 
-test('Renders a grid with the audio files information', async () => {
+test('Renders a grid with the audio files information and allows to edit files', async () => {
     const {
         getByText,
         getByDisplayValue,
@@ -54,14 +54,12 @@ test('Renders a grid with the audio files information', async () => {
 
     expect(await findByText('Edit file1.mp3')).toBeInTheDocument();
 
-    sinon
-        .stub(AudioFileController, 'editFile')
-        .resolves({
-            ...audioFileMp3,
-            title: 'File 1 - New',
-            trackPosition: 2,
-            totalNumberOfTracks: 4,
-        });
+    sinon.stub(AudioFileController, 'editFile').resolves({
+        ...audioFileMp3,
+        title: 'File 1 - New',
+        trackPosition: 2,
+        totalNumberOfTracks: 4,
+    });
 
     await act(async () => {
         fireEvent.click(getByDisplayValue('Edit file'));
