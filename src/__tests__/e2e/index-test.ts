@@ -1,4 +1,4 @@
-import 'testcafe';
+import { ClientFunction } from 'testcafe';
 
 import NodeID3 from 'node-id3';
 import path from 'path';
@@ -8,6 +8,10 @@ import { screen } from '@testing-library/testcafe';
 fixture`Getting Started`.page(
     '../../../.webpack/renderer/main_window/index.html',
 );
+
+const clickOpenBtn = ClientFunction(() => {
+    (document.querySelector('#open-button') as HTMLElement).click();
+});
 
 test('Main page', async (t) => {
     const dir1 = path.join(__dirname, 'audio-files', 'dir1');
@@ -76,7 +80,7 @@ test('Main page', async (t) => {
     );
 
     // Change directory
-    await t.click('#open-button');
+    await clickOpenBtn();
 
     const { log } = await t.getBrowserConsoleMessages();
     console.log(log);
