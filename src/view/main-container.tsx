@@ -41,6 +41,7 @@ export default (): JSX.Element => {
     const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false);
 
     const handleClick = async () => {
+        console.log('clicked');
         const { canceled, filePaths } = await electronHelpers.showOpenDialog();
         console.log(canceled, filePaths);
 
