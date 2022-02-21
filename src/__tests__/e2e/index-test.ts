@@ -45,10 +45,6 @@ test('Main page', async (t) => {
     await t.expect(screen.getByText('Open directory').exists).ok();
 
     await t.click(screen.getByText('Open directory'));
-    await setElectronDialogHandler(
-        () => ({ canceled: false, filePaths: [dir1] }),
-        { dir1 },
-    );
 
     await t.expect(screen.getByText('Change directory').exists).ok();
     await t.expect(screen.getByText('sample-file-2.mp3').exists).ok();
@@ -74,10 +70,13 @@ test('Main page', async (t) => {
     // Close dialog
     await t.click(screen.getByTestId('close'));
 
-    await t.wait(2000);
+    await setElectronDialogHandler(
+        () => ({ canceled: false, filePaths: [dir1] }),
+        { dir1 },
+    );
 
     // Change directory
-    await t.click(screen.getByTestId('open-button'));
+    await t.click('#open-button');
 
     const { log } = await t.getBrowserConsoleMessages();
     console.log(log);

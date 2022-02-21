@@ -23,6 +23,7 @@ const OpenButton = ({
         data-testid="open-button"
         variant="contained"
         color="primary"
+        id="open-button"
         onClick={handleClick}
     >
         {buttonText}
