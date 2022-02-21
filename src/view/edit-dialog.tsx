@@ -30,7 +30,11 @@ export default ({ open, handleClose }: EditDialogProps): JSX.Element => {
         audioFile && (
             <Dialog onClose={handleClose} open={open}>
                 <DialogTitle>{`Edit ${audioFile.name}`}</DialogTitle>
-                <div role="none" onClick={handleClose}>
+                <div
+                    role="none"
+                    onClick={handleClose}
+                    id="close-edit-dialog-btn"
+                >
                     <CloseIcon
                         data-testid="close"
                         className={classes.closeButton}

@@ -9,8 +9,8 @@ fixture`Getting Started`.page(
     '../../../.webpack/renderer/main_window/index.html',
 );
 
-const clickOpenBtn = ClientFunction(() => {
-    (document.querySelector('#open-button') as HTMLElement).click();
+const clickCloseBtn = ClientFunction(() => {
+    (document.querySelector('#close-edit-dialog-btn') as HTMLElement).click();
 });
 
 test('Main page', async (t) => {
@@ -72,7 +72,9 @@ test('Main page', async (t) => {
     await t.expect(totalTracksInput.value).eql('4');
 
     // Close dialog
-    await t.click(screen.getByTestId('close'));
+    // await t.click(screen.getByTestId('close'));
+
+    await clickCloseBtn();
 
     await setElectronDialogHandler(
         () => ({ canceled: false, filePaths: [dir1] }),
@@ -80,7 +82,8 @@ test('Main page', async (t) => {
     );
 
     // Change directory
-    await clickOpenBtn();
+
+    await t.click(screen.getByText('Change directory'));
 
     const { log } = await t.getBrowserConsoleMessages();
     console.log(log);
