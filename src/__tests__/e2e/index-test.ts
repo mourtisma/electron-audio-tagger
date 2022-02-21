@@ -66,8 +66,10 @@ test('Main page', async (t) => {
     await t.expect(trackPositionInput.value).eql('2');
     await t.expect(totalTracksInput.value).eql('4');
 
-    // Close dialogy
+    // Close dialog
     await t.click(screen.getByTestId('close'));
+
+    await t.wait(2000);
 
     // Change directory
     await setElectronDialogHandler(
@@ -75,7 +77,7 @@ test('Main page', async (t) => {
         { dir1 },
     );
     await t.click(screen.getByTestId('open-button'));
-    await t.wait(2000);
+
     const { log } = await t.getBrowserConsoleMessages();
     console.log(log);
     await t.expect(screen.getByText('sample-file-1.mp3').exists).ok();
