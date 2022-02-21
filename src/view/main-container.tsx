@@ -42,6 +42,7 @@ export default (): JSX.Element => {
 
     const handleClick = async () => {
         const { canceled, filePaths } = await electronHelpers.showOpenDialog();
+        console.log(canceled, filePaths);
 
         if (!canceled) {
             const [directory] = filePaths;
