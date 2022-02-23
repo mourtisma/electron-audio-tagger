@@ -13,11 +13,11 @@ export const audioFileMp3: AudioFile = {
 export const audioFileWav: AudioFile = {
     name: 'file2.wav',
     title: 'File 2',
-    artist: 'Artist 1',
-    album: 'Album 1',
-    composer: 'Composer 1',
-    trackPosition: 1,
-    totalNumberOfTracks: 3,
+    artist: 'Artist 2',
+    album: 'Album 2',
+    composer: 'Composer 2',
+    trackPosition: 2,
+    totalNumberOfTracks: 4,
     error: false,
 };
 export const audioFileWithError: AudioFile = { name: 'file2.mp3', error: true };
