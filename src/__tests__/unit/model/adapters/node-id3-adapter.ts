@@ -38,10 +38,10 @@ describe('NodeID3Adapter#getAll', () => {
         });
         read.withArgs(path.join(directory, 'file2.wav')).resolves({
             title: 'File 2',
-            artist: 'Artist 1',
-            album: 'Album 1',
-            composer: 'Composer 1',
-            trackNumber: '1/3',
+            artist: 'Artist 2',
+            album: 'Album 2',
+            composer: 'Composer 2',
+            trackNumber: '2/4',
         });
 
         const audioFiles: AudioFile[] = await new NodeID3Adapter().getAll(

@@ -83,6 +83,7 @@ const AudioFilesGrid = ({
     return (
         <div style={{ height: 400, width: '100%' }}>
             <DataGrid
+                autoHeight
                 columns={columns}
                 rows={audioFiles}
                 columnBuffer={8}

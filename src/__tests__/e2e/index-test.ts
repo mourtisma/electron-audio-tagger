@@ -37,6 +37,17 @@ test('Main page', async (t) => {
 
     await NodeID3.Promise.update(
         {
+            title: 'Sample file 1 bis',
+            artist: 'Sample artist 1 bis',
+            album: 'Sample album 1 bis',
+            composer: 'Sample composer 1 bis',
+            trackNumber: '1/3',
+        },
+        path.join(dir1, 'sample-file-1-bis.mp3'),
+    );
+
+    await NodeID3.Promise.update(
+        {
             title: 'Sample file 2',
             artist: 'Sample artist 2',
             album: 'Sample album 2',
@@ -89,6 +100,7 @@ test('Main page', async (t) => {
     await t.click(screen.getByText('Change directory'));
 
     await t.expect(screen.getByText('sample-file-1.mp3').exists).ok();
+    await t.expect(screen.getByText('sample-file-1-bis.mp3').exists).ok();
 
     // Open edit dialog
     await t.click(screen.getByTestId('edit-sample-file-1.mp3'));
