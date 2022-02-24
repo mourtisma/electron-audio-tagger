@@ -2,9 +2,9 @@ import React, { ChangeEvent, useContext, useState, useEffect } from 'react';
 
 import { useForm, Controller } from 'react-hook-form';
 
-import TextField from '@material-ui/core/TextField';
-import Snackbar from '@material-ui/core/Snackbar';
-import { makeStyles } from '@material-ui/styles';
+import TextField from '@mui/material/TextField';
+import Snackbar from '@mui/material/Snackbar';
+import { makeStyles } from '@mui/styles';
 import AudioFile from '@model/audio-file';
 import { verifyTrackNumber } from '@helpers/node-id3';
 import EditAudioFileContext from './context';
