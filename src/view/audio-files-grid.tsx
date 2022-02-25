@@ -12,6 +12,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import Tooltip from '@mui/material/Tooltip';
 import AudioFile from '@model/audio-file';
 import { getTrackNumber } from '@helpers/node-id3';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+    editBtn: {
+        cursor: 'pointer',
+    },
+});
 
 interface AudioFilesGridProps {
     audioFiles: AudioFile[];
@@ -23,6 +30,8 @@ const AudioFilesGrid = ({
     onFileSelect,
     selectedDirectory,
 }: AudioFilesGridProps): JSX.Element => {
+    const classes = useStyles();
+
     const onEditIconSelect = (selectedFile: GridRowId) => {
         onFileSelect(selectedFile as string, selectedDirectory);
     };
@@ -58,7 +67,7 @@ const AudioFilesGrid = ({
                             onEditIconSelect(id);
                         }}
                     >
-                        <EditIcon />
+                        <EditIcon className={classes.editBtn} />
                     </div>
                 </Tooltip>
             ),
