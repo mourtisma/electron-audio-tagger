@@ -18,7 +18,6 @@ afterEach(() => {
 test('Renders a grid with the audio files information and allows to edit files', async () => {
     const {
         getByText,
-        getByDisplayValue,
         findByText,
         findByTestId,
         getByTestId,
@@ -66,7 +65,7 @@ test('Renders a grid with the audio files information and allows to edit files',
     });
 
     await act(async () => {
-        fireEvent.click(getByDisplayValue('Edit file'));
+        fireEvent.click(getByText('Edit file'));
     });
     expect(queryByText('Edit file1.mp3')).not.toBeInTheDocument();
 

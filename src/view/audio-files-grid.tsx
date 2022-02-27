@@ -3,13 +3,22 @@ import {
     DataGrid,
     GridAlignment,
     GridCellParams,
+    GridValueGetterParams,
+    GridColDef,
     GridRowId,
-} from '@material-ui/data-grid';
-import ErrorIcon from '@material-ui/icons/Error';
-import EditIcon from '@material-ui/icons/Edit';
-import Tooltip from '@material-ui/core/Tooltip';
+} from '@mui/x-data-grid';
+import ErrorIcon from '@mui/icons-material/Error';
+import EditIcon from '@mui/icons-material/Edit';
+import Tooltip from '@mui/material/Tooltip';
 import AudioFile from '@model/audio-file';
 import { getTrackNumber } from '@helpers/node-id3';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+    editBtn: {
+        cursor: 'pointer',
+    },
+});
 
 interface AudioFilesGridProps {
     audioFiles: AudioFile[];
@@ -21,11 +30,13 @@ const AudioFilesGrid = ({
     onFileSelect,
     selectedDirectory,
 }: AudioFilesGridProps): JSX.Element => {
+    const classes = useStyles();
+
     const onEditIconSelect = (selectedFile: GridRowId) => {
         onFileSelect(selectedFile as string, selectedDirectory);
     };
 
-    const columns = [
+    const columns: GridColDef[] = [
         { field: 'name', headerName: 'Name', flex: 1 },
         { field: 'title', headerName: 'Title', flex: 1 },
         { field: 'artist', headerName: 'Artist', flex: 1 },
@@ -33,11 +44,11 @@ const AudioFilesGrid = ({
         { field: 'composer', headerName: 'Composer', flex: 1 },
         {
             field: 'trackNumber',
-            headerName: 'Track position',
+            headerName: 'Track position/Total tracks',
             flex: 1,
             valueGetter: ({
                 row: { trackPosition, totalNumberOfTracks },
-            }: GridCellParams): string =>
+            }: GridValueGetterParams): string =>
                 getTrackNumber(trackPosition, totalNumberOfTracks),
         },
         {
@@ -56,7 +67,7 @@ const AudioFilesGrid = ({
                             onEditIconSelect(id);
                         }}
                     >
-                        <EditIcon />
+                        <EditIcon className={classes.editBtn} />
                     </div>
                 </Tooltip>
             ),

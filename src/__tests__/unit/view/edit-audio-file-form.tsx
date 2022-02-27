@@ -61,7 +61,7 @@ test('Fills the form with the data of a particular audio file without tags', asy
 
 test('Calls the change and submit handlers when necessary', async () => {
     const editAudioFile = jest.fn();
-    const { getByLabelText, getByDisplayValue } = render(
+    const { getByLabelText, getByText } = render(
         <EditAudioFileContext.Provider value={{ audioFile, editAudioFile }}>
             <EditAudioFileForm />
         </EditAudioFileContext.Provider>,
@@ -84,7 +84,7 @@ test('Calls the change and submit handlers when necessary', async () => {
     });
 
     await act(async () => {
-        fireEvent.click(getByDisplayValue('Edit file'));
+        fireEvent.click(getByText('Edit file'));
     });
 
     expect(editAudioFile).toBeCalledWith({
@@ -126,7 +126,7 @@ test('Shows a snackbar if an error occurs when editing the file', async () => {
     const editAudioFile = sinon.stub();
     editAudioFile.throws('Error when editing file1.mp3');
 
-    const { getByLabelText, getByDisplayValue, getByText } = render(
+    const { getByLabelText, getByText } = render(
         <EditAudioFileContext.Provider value={{ audioFile, editAudioFile }}>
             <EditAudioFileForm />
         </EditAudioFileContext.Provider>,
@@ -139,7 +139,7 @@ test('Shows a snackbar if an error occurs when editing the file', async () => {
     });
 
     await act(async () => {
-        fireEvent.click(getByDisplayValue('Edit file'));
+        fireEvent.click(getByText('Edit file'));
     });
 
     expect(getByText('Error when editing file1.mp3')).toBeInTheDocument();

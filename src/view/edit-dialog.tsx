@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import CloseIcon from '@material-ui/icons/Close';
-import { makeStyles } from '@material-ui/styles';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import CloseIcon from '@mui/icons-material/Close';
+import { makeStyles } from '@mui/styles';
 import EditAudioFileForm from './edit-audio-file-form';
 import EditAudioFileContext from './context';
 
@@ -10,7 +10,8 @@ const useStyles = makeStyles({
     closeButton: {
         position: 'absolute',
         right: '0.5em',
-        bottom: '0.5em',
+        top: '0.5em',
+        cursor: 'pointer',
     },
     attributes: {
         marginLeft: '0.5em',
@@ -28,7 +29,11 @@ export default ({ open, handleClose }: EditDialogProps): JSX.Element => {
 
     return (
         audioFile && (
-            <Dialog onClose={handleClose} open={open}>
+            <Dialog
+                onClose={handleClose}
+                open={open}
+                PaperProps={{ sx: { height: '550px', maxHeight: '650px' } }}
+            >
                 <DialogTitle>{`Edit ${audioFile.name}`}</DialogTitle>
                 <div
                     role="none"

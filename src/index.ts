@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, Menu } from 'electron';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
 
@@ -10,11 +10,13 @@ if (require('electron-squirrel-startup')) {
     app.quit();
 }
 
+if (process.env.NODE_ENV === 'production') {
+    Menu.setApplicationMenu(null);
+}
+
 const createWindow = (): void => {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
-        height: 600,
-        width: 800,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
@@ -22,6 +24,7 @@ const createWindow = (): void => {
             devTools: process.env.NODE_ENV === 'development',
         },
     });
+    mainWindow.maximize();
 
     // and load the index.html of the app.
     mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
