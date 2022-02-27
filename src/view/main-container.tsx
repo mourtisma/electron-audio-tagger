@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import AudioFileController from '@controller/audio-file-controller';
-import AudioFile from '@model/audio-file';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Snackbar from '@mui/material/Snackbar';
+
+import AudioFileController from '@controller/audio-file-controller';
+
+import AudioFile from '@model/audio-file';
+
 import electronHelpers from '@helpers/electron';
+
 import EditAudioFileContext from './context';
 import AudioFilesGrid from './audio-files-grid';
 import EditDialog from './edit-dialog';

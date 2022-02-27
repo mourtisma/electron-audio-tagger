@@ -1,12 +1,16 @@
-import NodeID3 from 'node-id3';
 import { readdir } from 'fs/promises';
 import path from 'path';
+
+import NodeID3 from 'node-id3';
+
 import {
     parseTrackNumber,
     getTrackNumber,
     verifyTrackNumber,
 } from '@helpers/node-id3';
+
 import AudioFile from '../audio-file';
+
 import GenericAdapter from './generic-adapter';
 
 export default class NodeID3Adapter implements GenericAdapter {

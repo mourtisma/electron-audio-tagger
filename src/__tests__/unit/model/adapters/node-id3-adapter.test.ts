@@ -1,9 +1,12 @@
-import sinon from 'sinon';
-import NodeID3 from 'node-id3';
 import fs from 'fs';
 import path from 'path';
+
+import sinon from 'sinon';
+import NodeID3 from 'node-id3';
+
 import NodeID3Adapter from '@model/adapters/node-id3-adapter';
 import AudioFile from '@model/audio-file';
+
 import { audioFileMp3, audioFileWav } from '../../audio-files-fixtures';
 
 const directory: string = 'my-files/';

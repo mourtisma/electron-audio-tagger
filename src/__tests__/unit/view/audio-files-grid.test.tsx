@@ -1,6 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+
 import AudioFilesGrid from '@view/audio-files-grid';
+
 import { audioFileFixtures } from '../audio-files-fixtures';
 
 test('Renders a grid with the audio files information', async () => {
