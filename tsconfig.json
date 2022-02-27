@@ -19,7 +19,6 @@
             "@model/*": ["./src/model/*"],
             "@view/*": ["./src/view/*"],
             "@controller/*": ["./src/controller/*"],
-            "@service/*": ["./src/service/*"],
             "@helpers/*": ["./src/helpers/*"]
         }
     },
