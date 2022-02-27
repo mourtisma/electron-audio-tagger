@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, Menu } from 'electron';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
 
@@ -8,6 +8,10 @@ require('@electron/remote/main').initialize();
 if (require('electron-squirrel-startup')) {
     // eslint-disable-line global-require
     app.quit();
+}
+
+if (process.env.NODE_ENV === 'production') {
+    Menu.setApplicationMenu(null);
 }
 
 const createWindow = (): void => {
