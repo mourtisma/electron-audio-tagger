@@ -1,7 +1,10 @@
 import sinon from 'sinon';
+
+import AudioFileController from '@controller/audio-file-controller';
+
 import AudioFile from '@model/audio-file';
 import AudioFileRepository from '@model/audio-file-repository';
-import AudioFileController from '@controller/audio-file-controller';
+
 import { audioFileMp3, audioFileWav } from '../audio-files-fixtures';
 
 describe('AudioFileController#openDirectory', () => {

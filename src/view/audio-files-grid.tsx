@@ -10,9 +10,11 @@ import {
 import ErrorIcon from '@mui/icons-material/Error';
 import EditIcon from '@mui/icons-material/Edit';
 import Tooltip from '@mui/material/Tooltip';
-import AudioFile from '@model/audio-file';
-import { getTrackNumber } from '@helpers/node-id3';
 import { makeStyles } from '@mui/styles';
+
+import AudioFile from '@model/audio-file';
+
+import { getTrackNumber } from '@helpers/node-id3';
 
 const useStyles = makeStyles({
     editBtn: {

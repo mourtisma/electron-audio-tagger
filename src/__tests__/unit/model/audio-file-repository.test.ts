@@ -1,7 +1,9 @@
 import sinon from 'sinon';
+
 import AudioFile from '@model/audio-file';
 import NodeID3Adapter from '@model/adapters/node-id3-adapter';
 import AudioFileRepository from '@model/audio-file-repository';
+
 import { audioFileMp3, audioFileWav } from '../audio-files-fixtures';
 
 describe('AudioFileRepository#getAll', () => {

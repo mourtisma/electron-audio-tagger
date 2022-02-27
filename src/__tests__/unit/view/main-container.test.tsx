@@ -1,10 +1,15 @@
 import sinon from 'sinon';
 import React from 'react';
 import { render, fireEvent, act, waitFor } from '@testing-library/react';
-import AudioFileController from '@controller/audio-file-controller';
-import electronHelpers from '@helpers/electron';
+
 import MainContainer from '@view/main-container';
+
+import AudioFileController from '@controller/audio-file-controller';
+
 import AudioFile from '@model/audio-file';
+
+import electronHelpers from '@helpers/electron';
+
 import { audioFileFixtures } from '../audio-files-fixtures';
 
 jest.mock('@helpers/electron', () => ({

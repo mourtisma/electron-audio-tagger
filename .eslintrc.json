@@ -34,7 +34,43 @@
         "@typescript-eslint/no-use-before-define": ["error"],
         "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": ["error"],
-        "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }]
+        "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }],
+        "import/order": [
+            "error",
+            {
+                "groups": [
+                    "builtin",
+                    "external",
+                    "internal",
+                    "parent",
+                    "sibling",
+                    "index"
+                ],
+                "pathGroups": [
+                    {
+                        "pattern": "@view/**",
+                        "group": "internal",
+                        "position": "after"
+                    },
+                    {
+                        "pattern": "@controller/**",
+                        "group": "internal",
+                        "position": "after"
+                    },
+                    {
+                        "pattern": "@model/**",
+                        "group": "internal",
+                        "position": "after"
+                    },
+                    {
+                        "pattern": "@helpers/**",
+                        "group": "internal",
+                        "position": "after"
+                    }
+                ],
+                "newlines-between": "always"
+            }
+        ]
     },
     "globals": { "JSX": true, "Electron": true },
     "settings": {

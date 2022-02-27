@@ -1,7 +1,7 @@
-import { ClientFunction } from 'testcafe';
-
-import NodeID3 from 'node-id3';
 import path from 'path';
+
+import { ClientFunction } from 'testcafe';
+import NodeID3 from 'node-id3';
 import { setElectronDialogHandler } from 'testcafe-browser-provider-electron';
 import { screen } from '@testing-library/testcafe';
 
