@@ -92,7 +92,6 @@ module.exports = {
         '@model/(.*)': '<rootDir>/src/model/$1',
         '@view/(.*)': '<rootDir>/src/view/$1',
         '@controller/(.*)': '<rootDir>/src/controller/$1',
-        '@service/(.*)': '<rootDir>/src/service/$1',
         '@helpers/(.*)': '<rootDir>/src/helpers/$1',
     },
 
