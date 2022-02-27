@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render, fireEvent, act, waitFor } from '@testing-library/react';
 import AudioFileController from '@controller/audio-file-controller';
 import electronHelpers from '@helpers/electron';
 import MainContainer from '@view/main-container';
@@ -74,7 +74,7 @@ test('Renders a grid with the audio files information and allows to edit files',
 });
 
 test('Shows an error message when the opening of the directory fails', async () => {
-    const { getByText, findByText } = render(<MainContainer />);
+    const { getByText, findByText, queryByText } = render(<MainContainer />);
     const showOpenDialogSpy = jest.spyOn(electronHelpers, 'showOpenDialog');
     showOpenDialogSpy.mockImplementation(async () => ({
         filePaths: ['selectedDirectory'],
@@ -92,8 +92,11 @@ test('Shows an error message when the opening of the directory fails', async () 
     // Click outside the snackbar, to execute the onClose callback
     fireEvent.click(getByText('Selected directory: selectedDirectory'));
 
-    // With RTL, the snackbar is still present in the DOM, whereas it shouldn't be
-    // => For the moment, it's impossible to add an expect statement
+    await waitFor(() => {
+        expect(
+            queryByText('Error when opening directory selectedDirectory'),
+        ).not.toBeInTheDocument();
+    });
 });
 
 test('Does not render the grid when the user closes the open dialog', async () => {
