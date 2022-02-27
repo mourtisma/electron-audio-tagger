@@ -17,8 +17,6 @@ if (process.env.NODE_ENV === 'production') {
 const createWindow = (): void => {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
-        height: 600,
-        width: 800,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
@@ -26,6 +24,7 @@ const createWindow = (): void => {
             devTools: process.env.NODE_ENV === 'development',
         },
     });
+    mainWindow.maximize();
 
     // and load the index.html of the app.
     mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
