@@ -126,7 +126,7 @@ test('Shows a snackbar if an error occurs when editing the file', async () => {
     const editAudioFile = sinon.stub();
     editAudioFile.throws('Error when editing file1.mp3');
 
-    const { getByLabelText, getByText } = render(
+    const { getByLabelText, getByText, queryByText } = render(
         <EditAudioFileContext.Provider value={{ audioFile, editAudioFile }}>
             <EditAudioFileForm />
         </EditAudioFileContext.Provider>,
@@ -147,6 +147,5 @@ test('Shows a snackbar if an error occurs when editing the file', async () => {
     // Click outside the snackbar, to execute the onClose callback
     fireEvent.click(getByLabelText('Title'));
 
-    // With RTL, the snackbar is still present in the DOM, whereas it shouldn't be
-    // => For the moment, it's impossible to add an expect statement
+    expect(queryByText('Error when editing file1.mp3')).not.toBeInTheDocument();
 });
