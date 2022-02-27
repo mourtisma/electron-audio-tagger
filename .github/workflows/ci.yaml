@@ -95,9 +95,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       
-      - name: Install Windows build tools
+      - name: Install Node-Gyp
         if: matrix.os == 'windows-latest'
-        run: npm install -g windows-build-tools@4.0.0
+        run: npm install node-gyp@latest
 
       - name: Install dependencies
         run: npm ci
