@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render, fireEvent, act, waitFor } from '@testing-library/react';
 import AudioFileController from '@controller/audio-file-controller';
 import electronHelpers from '@helpers/electron';
 import MainContainer from '@view/main-container';
@@ -92,9 +92,11 @@ test('Shows an error message when the opening of the directory fails', async () 
     // Click outside the snackbar, to execute the onClose callback
     fireEvent.click(getByText('Selected directory: selectedDirectory'));
 
-    expect(
-        queryByText('Error when opening directory selectedDirectory'),
-    ).not.toBeInTheDocument();
+    await waitFor(() => {
+        expect(
+            queryByText('Error when opening directory selectedDirectory'),
+        ).not.toBeInTheDocument();
+    });
 });
 
 test('Does not render the grid when the user closes the open dialog', async () => {

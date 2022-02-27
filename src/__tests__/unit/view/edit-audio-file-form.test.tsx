@@ -1,6 +1,6 @@
 import React from 'react';
 import sinon from 'sinon';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render, fireEvent, act, waitFor } from '@testing-library/react';
 import EditAudioFileForm from '@view/edit-audio-file-form';
 import AudioFile from '@model/audio-file';
 import EditAudioFileContext from '@view/context';
@@ -147,5 +147,9 @@ test('Shows a snackbar if an error occurs when editing the file', async () => {
     // Click outside the snackbar, to execute the onClose callback
     fireEvent.click(getByLabelText('Title'));
 
-    expect(queryByText('Error when editing file1.mp3')).not.toBeInTheDocument();
+    await waitFor(() => {
+        expect(
+            queryByText('Error when editing file1.mp3'),
+        ).not.toBeInTheDocument();
+    });
 });
