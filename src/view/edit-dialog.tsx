@@ -10,7 +10,8 @@ const useStyles = makeStyles({
     closeButton: {
         position: 'absolute',
         right: '0.5em',
-        bottom: '0.5em',
+        top: '0.5em',
+        cursor: 'pointer',
     },
     attributes: {
         marginLeft: '0.5em',
@@ -28,7 +29,11 @@ export default ({ open, handleClose }: EditDialogProps): JSX.Element => {
 
     return (
         audioFile && (
-            <Dialog onClose={handleClose} open={open}>
+            <Dialog
+                onClose={handleClose}
+                open={open}
+                PaperProps={{ sx: { height: '550px', maxHeight: '650px' } }}
+            >
                 <DialogTitle>{`Edit ${audioFile.name}`}</DialogTitle>
                 <div
                     role="none"

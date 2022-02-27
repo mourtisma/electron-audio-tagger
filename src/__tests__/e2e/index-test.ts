@@ -127,7 +127,7 @@ test('Main page', async (t) => {
         .ok();
 
     // Submit failure
-    await t.click(screen.getByDisplayValue('Edit file'));
+    await t.click(screen.getByText('Edit file'));
 
     await t.expect(screen.queryByText('Edit sample-file-1.mp3').exists).ok();
 
@@ -136,7 +136,7 @@ test('Main page', async (t) => {
     await t.typeText(totalTracksInput, '4', { replace: true });
 
     // Submit success
-    await t.click(screen.getByDisplayValue('Edit file'));
+    await t.click(screen.getByText('Edit file'));
 
     await t.expect(screen.queryByText('Edit sample-file-1.mp3').exists).notOk();
 
