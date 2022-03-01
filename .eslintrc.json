@@ -10,6 +10,7 @@
         "plugin:markdown/recommended",
         "plugin:testcafe/recommended",
         "plugin:import/typescript",
+        "plugin:testing-library/react",
         "airbnb",
         "prettier"
     ],
@@ -21,7 +22,13 @@
         "ecmaVersion": 12,
         "sourceType": "module"
     },
-    "plugins": ["react", "@typescript-eslint", "testcafe"],
+    "plugins": ["react", "@typescript-eslint", "testcafe", "testing-library"],
+    "overrides": [
+        {
+            "files": ["./src/__tests__/unit/**/(*.)+(spec|test).[tj]s?(x)"],
+            "extends": ["plugin:testing-library/react"]
+        }
+    ],
     "rules": {
         "import/no-extraneous-dependencies": [
             "error",

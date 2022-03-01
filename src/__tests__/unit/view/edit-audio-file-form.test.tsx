@@ -1,6 +1,6 @@
 import React from 'react';
 import sinon from 'sinon';
-import { render, fireEvent, act, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 
 import EditAudioFileForm from '@view/edit-audio-file-form';
 import EditAudioFileContext from '@view/context';
@@ -10,19 +10,21 @@ import AudioFile from '@model/audio-file';
 import { audioFileMp3 as audioFile } from '../audio-files-fixtures';
 
 test('Fills the form with the data of a particular audio file', async () => {
-    const { getByLabelText } = render(
+    render(
         <EditAudioFileContext.Provider value={{ audioFile }}>
             <EditAudioFileForm />
         </EditAudioFileContext.Provider>,
     );
-    const titleInput = getByLabelText('Title') as HTMLInputElement;
-    const artistInput = getByLabelText('Artist') as HTMLInputElement;
-    const albumInput = getByLabelText('Album') as HTMLInputElement;
-    const composerInput = getByLabelText('Composer') as HTMLInputElement;
-    const trackPositionInput = getByLabelText(
+    const titleInput = screen.getByLabelText('Title') as HTMLInputElement;
+    const artistInput = screen.getByLabelText('Artist') as HTMLInputElement;
+    const albumInput = screen.getByLabelText('Album') as HTMLInputElement;
+    const composerInput = screen.getByLabelText('Composer') as HTMLInputElement;
+    const trackPositionInput = screen.getByLabelText(
         'Track position',
     ) as HTMLInputElement;
-    const totalTracksInput = getByLabelText('Total tracks') as HTMLInputElement;
+    const totalTracksInput = screen.getByLabelText(
+        'Total tracks',
+    ) as HTMLInputElement;
 
     expect(titleInput.value).toBe('File 1');
     expect(artistInput.value).toBe('Artist 1');
@@ -37,7 +39,7 @@ test('Fills the form with the data of a particular audio file without tags', asy
         name: 'file1.mp3',
         error: false,
     };
-    const { getByLabelText } = render(
+    render(
         <EditAudioFileContext.Provider
             value={{ audioFile: audioFileWithoutTags }}
         >
@@ -45,14 +47,16 @@ test('Fills the form with the data of a particular audio file without tags', asy
         </EditAudioFileContext.Provider>,
     );
 
-    const titleInput = getByLabelText('Title') as HTMLInputElement;
-    const artistInput = getByLabelText('Artist') as HTMLInputElement;
-    const albumInput = getByLabelText('Album') as HTMLInputElement;
-    const composerInput = getByLabelText('Composer') as HTMLInputElement;
-    const trackPositionInput = getByLabelText(
+    const titleInput = screen.getByLabelText('Title') as HTMLInputElement;
+    const artistInput = screen.getByLabelText('Artist') as HTMLInputElement;
+    const albumInput = screen.getByLabelText('Album') as HTMLInputElement;
+    const composerInput = screen.getByLabelText('Composer') as HTMLInputElement;
+    const trackPositionInput = screen.getByLabelText(
         'Track position',
     ) as HTMLInputElement;
-    const totalTracksInput = getByLabelText('Total tracks') as HTMLInputElement;
+    const totalTracksInput = screen.getByLabelText(
+        'Total tracks',
+    ) as HTMLInputElement;
 
     expect(titleInput.value).toBe('');
     expect(artistInput.value).toBe('');
@@ -64,95 +68,93 @@ test('Fills the form with the data of a particular audio file without tags', asy
 
 test('Calls the change and submit handlers when necessary', async () => {
     const editAudioFile = jest.fn();
-    const { getByLabelText, getByText } = render(
+    render(
         <EditAudioFileContext.Provider value={{ audioFile, editAudioFile }}>
             <EditAudioFileForm />
         </EditAudioFileContext.Provider>,
     );
 
-    const titleInput = getByLabelText('Title') as HTMLInputElement;
-    const trackPositionInput = getByLabelText(
+    const titleInput = screen.getByLabelText('Title') as HTMLInputElement;
+    const trackPositionInput = screen.getByLabelText(
         'Track position',
     ) as HTMLInputElement;
-    const totalTracksInput = getByLabelText('Total tracks') as HTMLInputElement;
+    const totalTracksInput = screen.getByLabelText(
+        'Total tracks',
+    ) as HTMLInputElement;
 
-    await act(async () => {
-        fireEvent.change(titleInput, { target: { value: 'File 1 - New' } });
-    });
-    await act(async () => {
-        fireEvent.change(trackPositionInput, { target: { value: '2' } });
-    });
-    await act(async () => {
-        fireEvent.change(totalTracksInput, { target: { value: '' } });
-    });
+    fireEvent.change(titleInput, { target: { value: 'File 1 - New' } });
 
-    await act(async () => {
-        fireEvent.click(getByText('Edit file'));
-    });
+    fireEvent.change(trackPositionInput, { target: { value: '2' } });
 
-    expect(editAudioFile).toBeCalledWith({
-        ...audioFile,
-        title: 'File 1 - New',
-        trackPosition: 2,
-        totalNumberOfTracks: undefined,
+    fireEvent.change(totalTracksInput, { target: { value: '' } });
+    fireEvent.click(screen.getByText('Edit file'));
+
+    await waitFor(() => {
+        expect(editAudioFile).toBeCalledWith({
+            ...audioFile,
+            title: 'File 1 - New',
+            trackPosition: 2,
+            totalNumberOfTracks: undefined,
+        });
     });
 });
 
 test('Shows an error if the track position is superior to the total number of tracks', async () => {
     const editAudioFile = jest.fn();
-    const { getByLabelText, getAllByText } = render(
+    render(
         <EditAudioFileContext.Provider value={{ audioFile, editAudioFile }}>
             <EditAudioFileForm />
         </EditAudioFileContext.Provider>,
     );
 
-    const trackPositionInput = getByLabelText(
+    const trackPositionInput = screen.getByLabelText(
         'Track position',
     ) as HTMLInputElement;
-    const totalTracksInput = getByLabelText('Total tracks') as HTMLInputElement;
+    const totalTracksInput = screen.getByLabelText(
+        'Total tracks',
+    ) as HTMLInputElement;
 
-    await act(async () => {
-        fireEvent.change(trackPositionInput, { target: { value: '2' } });
-    });
-    await act(async () => {
-        fireEvent.change(totalTracksInput, { target: { value: '1' } });
-    });
+    fireEvent.change(trackPositionInput, { target: { value: '2' } });
 
-    expect(
-        getAllByText(
-            'The track position must be lower than the total number of tracks',
-        ).length,
-    ).toBe(2);
+    fireEvent.change(totalTracksInput, { target: { value: '1' } });
+
+    await waitFor(() => {
+        expect(
+            screen.getAllByText(
+                'The track position must be lower than the total number of tracks',
+            ).length,
+        ).toBe(2);
+    });
 });
 
 test('Shows a snackbar if an error occurs when editing the file', async () => {
     const editAudioFile = sinon.stub();
     editAudioFile.throws('Error when editing file1.mp3');
 
-    const { getByLabelText, getByText, queryByText } = render(
+    render(
         <EditAudioFileContext.Provider value={{ audioFile, editAudioFile }}>
             <EditAudioFileForm />
         </EditAudioFileContext.Provider>,
     );
 
-    const input = getByLabelText('Title') as HTMLInputElement;
+    const input = screen.getByLabelText('Title') as HTMLInputElement;
 
-    await act(async () => {
-        fireEvent.change(input, { target: { value: 'File 1 - New' } });
-    });
+    fireEvent.change(input, { target: { value: 'File 1 - New' } });
 
-    await act(async () => {
-        fireEvent.click(getByText('Edit file'));
-    });
-
-    expect(getByText('Error when editing file1.mp3')).toBeInTheDocument();
-
-    // Click outside the snackbar, to execute the onClose callback
-    fireEvent.click(getByLabelText('Title'));
+    fireEvent.click(screen.getByText('Edit file'));
 
     await waitFor(() => {
         expect(
-            queryByText('Error when editing file1.mp3'),
+            screen.getByText('Error when editing file1.mp3'),
+        ).toBeInTheDocument();
+    });
+
+    // Click outside the snackbar, to execute the onClose callback
+    fireEvent.click(screen.getByLabelText('Title'));
+
+    await waitFor(() => {
+        expect(
+            screen.queryByText('Error when editing file1.mp3'),
         ).not.toBeInTheDocument();
     });
 });
