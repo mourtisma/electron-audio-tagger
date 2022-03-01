@@ -14,7 +14,19 @@ import AudioFile from '../audio-file';
 import GenericAdapter from './generic-adapter';
 
 export default class NodeID3Adapter implements GenericAdapter {
-    extensions = new Set<string>(['.mp3', '.wav']);
+    // Examples taken from https://en.wikipedia.org/wiki/Audio_file_format
+    extensions = new Set<string>([
+        '.mp3',
+        '.wav',
+        '.wma',
+        '.wav',
+        '.aac',
+        '.mp4',
+        '.flac',
+        '.ogg',
+        '.aiff',
+        '.m4a',
+    ]);
 
     private static toAudioFile(
         name: string,
