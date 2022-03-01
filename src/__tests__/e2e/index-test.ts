@@ -16,6 +16,7 @@ fixture`Getting Started`.page(
  * Link to the issue: https://github.com/DevExpress/testcafe/issues/4146
  */
 const clickCloseBtn = ClientFunction(() => {
+    // eslint-disable-next-line testing-library/no-node-access
     (document.querySelector('#close-edit-dialog-btn') as HTMLElement).click();
 });
 
