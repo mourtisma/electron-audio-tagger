@@ -63,6 +63,8 @@ For each file you want to edit, click on the **Edit button (pen icon)**, and a d
 
 Edit the properties as you please, and to conclude, click on the **Edit file** button.
 
+**Supported formats**: MP3, WAV, WMA, AAC, FLAC, OGG, AIFF, M4A.
+
 ### Troubleshooting
 
 If you encounter any issue, you can write an email to [the maintainer](mailto:ismail.mourtada@gmail.com).
@@ -78,6 +80,8 @@ Since this app uses [Electron](https://www.electronjs.org/) (with React and Type
 ```bash
 npm install
 ```
+
+It uses the [node-id3](https://www.npmjs.com/package/node-id3) library, to read and edit tags from the files.
 
 ### Linting and formatting
 
