@@ -3,6 +3,10 @@
     "productName": "electron-audio-tagger",
     "version": "1.0.0",
     "description": "A portable desktop app for tagging your audio files",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mourtisma/electron-audio-tagger"
+    },
     "main": ".webpack/main",
     "scripts": {
         "start": "electron-forge start",
@@ -53,6 +57,7 @@
         "babel-jest": "^26.6.3",
         "babel-loader": "^8.2.3",
         "codecov": "^3.8.1",
+        "copy-webpack-plugin": "^10.2.4",
         "css-loader": "^4.3.0",
         "electron": "^12.2.3",
         "electron-chromedriver": "^12.0.0",
