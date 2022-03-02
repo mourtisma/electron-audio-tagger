@@ -21,7 +21,6 @@ export default class NodeID3Adapter implements GenericAdapter {
         '.wma',
         '.wav',
         '.aac',
-        '.mp4',
         '.flac',
         '.ogg',
         '.aiff',
