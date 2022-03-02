@@ -1,12 +1,22 @@
+const path = require('path');
+
+const icon = path.join(__dirname, 'img', 'icon');
 module.exports = {
-    packagerConfig: {},
+    packagerConfig: {
+        icon, // Sets the icon for non-linux platforms
+    },
     makers: [
         {
             name: '@electron-forge/maker-zip',
         },
         {
             name: '@electron-forge/maker-deb',
-            config: {},
+            config: {
+                icon, // Sets the icon in case the app is installed through a DEB installer
+                productDescription:
+                    'Open a directory, and edit the properties of its audio files as you wish.',
+                homepage: 'https://github.com/mourtisma/electron-audio-tagger',
+            },
         },
     ],
     publishers: [
