@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "target": "ES2020",
+        "module": "commonjs",
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "noImplicitAny": true,
+        "sourceMap": true,
+        "baseUrl": ".",
+        "outDir": "dist",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "jsx": "react",
+        "types": ["jest", "sinon"],
+        "paths": {
+            "*": ["node_modules/*"],
+            "@src/*": ["./src/*"],
+            "@model/*": ["./src/model/*"],
+            "@view/*": ["./src/view/*"],
+            "@controller/*": ["./src/controller/*"],
+            "@helpers/*": ["./src/helpers/*"]
+        }
+    },
+    "include": ["src/**/*", "./jest-setup.ts"]
+}
