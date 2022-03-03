@@ -2,7 +2,7 @@
     "branches": [
         "main",
         {
-            "name": "dev",
+            "name": "test-rc2-base",
             "prerelease": "rc"
         }
     ],
