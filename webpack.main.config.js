@@ -21,8 +21,8 @@ module.exports = {
          * is in the .webpack/main directory.
          *
          *  => The img/ folder containing the icon must be moved alongside index.js
-         * in order for the icon to appear on Linux platforms, when the app is not installed
-         * through a DEB installer
+         * in order for the icon to appear after loading the app, when it is installed through
+         * a ZIP archive.
          */
         new CopyWebpackPlugin({
             patterns: [
