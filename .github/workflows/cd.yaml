@@ -1,8 +1,7 @@
 name: Publish
 on:
-  push:
-    tags:
-      - '**'
+  release:
+    types: [published]
 
 jobs:
   publish:
@@ -27,5 +26,5 @@ jobs:
 
       - name: Publish Electron app
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
         run: npm run publish
