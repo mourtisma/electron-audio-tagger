@@ -1,3 +1,5 @@
+import path from 'path';
+
 import { app, BrowserWindow, Menu } from 'electron';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
@@ -23,6 +25,7 @@ const createWindow = (): void => {
             enableRemoteModule: true,
             devTools: process.env.NODE_ENV === 'development',
         },
+        icon: path.join(__dirname, 'img', 'icon'),
     });
     mainWindow.maximize();
 
