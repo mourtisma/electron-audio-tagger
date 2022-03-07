@@ -46,7 +46,7 @@
         "@semantic-release/changelog": "^5.0.1",
         "@semantic-release/git": "^9.0.0",
         "@testing-library/jest-dom": "^5.11.9",
-        "@testing-library/react": "^11.2.5",
+        "@testing-library/react": "11.2.7",
         "@testing-library/testcafe": "^4.3.1",
         "@types/jest": "^26.0.20",
         "@types/react": "^17.0.3",
