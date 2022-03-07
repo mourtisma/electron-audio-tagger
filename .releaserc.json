@@ -1,6 +1,6 @@
 {
     "branches": [
-        "main",
+        "test-v1-base",
         {
             "name": "dev",
             "prerelease": "rc"
