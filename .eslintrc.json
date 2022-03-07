@@ -1,0 +1,94 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "jest": true
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "plugin:json/recommended",
+        "plugin:markdown/recommended",
+        "plugin:testcafe/recommended",
+        "plugin:import/typescript",
+        "plugin:testing-library/react",
+        "airbnb",
+        "prettier"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": ["react", "@typescript-eslint", "testcafe", "testing-library"],
+    "overrides": [
+        {
+            "files": ["./src/__tests__/unit/**/(*.)+(spec|test).[tj]s?(x)"],
+            "extends": ["plugin:testing-library/react"]
+        }
+    ],
+    "rules": {
+        "import/no-extraneous-dependencies": [
+            "error",
+            { "devDependencies": true }
+        ],
+        "global-require": 0,
+        "import/extensions": "off",
+        "no-use-before-define": "off",
+        "class-methods-use-this": "off",
+        "@typescript-eslint/no-use-before-define": ["error"],
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": ["error"],
+        "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }],
+        "import/order": [
+            "error",
+            {
+                "groups": [
+                    "builtin",
+                    "external",
+                    "internal",
+                    "parent",
+                    "sibling",
+                    "index"
+                ],
+                "pathGroups": [
+                    {
+                        "pattern": "@view/**",
+                        "group": "internal",
+                        "position": "after"
+                    },
+                    {
+                        "pattern": "@controller/**",
+                        "group": "internal",
+                        "position": "after"
+                    },
+                    {
+                        "pattern": "@model/**",
+                        "group": "internal",
+                        "position": "after"
+                    },
+                    {
+                        "pattern": "@helpers/**",
+                        "group": "internal",
+                        "position": "after"
+                    }
+                ],
+                "newlines-between": "always"
+            }
+        ]
+    },
+    "globals": { "JSX": true, "Electron": true },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+            },
+            "webpack": {
+                "config": "webpack.renderer.config.js"
+            },
+            "typescript": {}
+        }
+    }
+}
