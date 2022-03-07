@@ -1,7 +1,7 @@
 {
     "name": "electron-audio-tagger",
     "productName": "electron-audio-tagger",
-    "version": "1.0.0-rc.2",
+    "version": "1.0.0",
     "description": "A portable desktop app for tagging your audio files",
     "repository": {
         "type": "git",

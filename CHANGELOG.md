@@ -1,3 +1,9 @@
+# 1.0.0 (2022-03-07)
+
+### Features
+
+-   Release of version 1.0.0 ([9f613a9](https://github.com/mourtisma/electron-audio-tagger/commit/9f613a9a4cc2517c93e7cd04fbf3a6ef1b049135))
+
 # [1.0.0-rc.2](https://github.com/mourtisma/electron-audio-tagger/compare/v1.0.0-rc.1...v1.0.0-rc.2) (2022-03-04)
 
 ### Bug Fixes
