@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout git repo
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v2.7.0
 
       - name: Install Node.js  ${{ matrix.node-version }}, NPM and Yarn
         uses: actions/setup-node@v2.1.5
@@ -35,7 +35,7 @@ jobs:
 
     steps:
       - name: Checkout git repo
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v2.7.0
 
       - name: Install Node.js  ${{ matrix.node-version }}, NPM and Yarn
         uses: actions/setup-node@v2.1.5
@@ -63,7 +63,7 @@ jobs:
 
     steps:
       - name: Checkout git repo
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v2.7.0
 
       - name: Install Node.js  ${{ matrix.node-version }}, NPM and Yarn
         uses: actions/setup-node@v2.1.5
@@ -88,7 +88,7 @@ jobs:
 
     steps:
       - name: Checkout git repo
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v2.7.0
 
       - name: Install Node.js  ${{ matrix.node-version }}, NPM and Yarn
         uses: actions/setup-node@v2.1.5
@@ -111,7 +111,7 @@ jobs:
 
     steps:
       - name: Checkout git repo
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v2.7.0
 
       - name: Install Node.js  ${{ matrix.node-version }}, NPM and Yarn
         uses: actions/setup-node@v2.1.5
